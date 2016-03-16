@@ -1,0 +1,16 @@
+PODS:
+  - Firebase (2.5.1)
+  - Pushbots (1.2.3)
+  - SwiftChart (0.2.1)
+
+DEPENDENCIES:
+  - Firebase (>= 2.5.0)
+  - Pushbots (~> 1.2.3)
+  - SwiftChart
+
+SPEC CHECKSUMS:
+  Firebase: 3565ea88b830f28f2c77ecc524622bc71a20d085
+  Pushbots: b58e3aeafb4304257ed26e802e0057310787d9a2
+  SwiftChart: b76d4607022107a46473aa29a93c867872253d68
+
+COCOAPODS: 0.39.0

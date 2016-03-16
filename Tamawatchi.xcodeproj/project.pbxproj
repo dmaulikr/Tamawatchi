@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17EA7D6924A9AB9EC037DB83 /* Pods_Tamawatchi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826DD53C868667DDB0B1FB27 /* Pods_Tamawatchi.framework */; };
 		3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE31C98C10500676803 /* AppDelegate.swift */; };
 		3075FBE61C98C10500676803 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE51C98C10500676803 /* ViewController.swift */; };
 		3075FBE91C98C10500676803 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3075FBE71C98C10500676803 /* Main.storyboard */; };
@@ -47,6 +48,10 @@
 		3075FBFF1C98C10500676803 /* TamawatchiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TamawatchiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3075FC031C98C10500676803 /* TamawatchiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamawatchiUITests.swift; sourceTree = "<group>"; };
 		3075FC051C98C10500676803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3075FC111C98C11800676803 /* Tamawatchi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tamawatchi-Bridging-Header.h"; sourceTree = "<group>"; };
+		727B175FA8FC71AAD3C176B6 /* Pods-Tamawatchi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tamawatchi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tamawatchi/Pods-Tamawatchi.debug.xcconfig"; sourceTree = "<group>"; };
+		826DD53C868667DDB0B1FB27 /* Pods_Tamawatchi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tamawatchi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D089A05604B69EA0BDEDA9E2 /* Pods-Tamawatchi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tamawatchi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tamawatchi/Pods-Tamawatchi.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17EA7D6924A9AB9EC037DB83 /* Pods_Tamawatchi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +87,8 @@
 				3075FBF71C98C10500676803 /* TamawatchiTests */,
 				3075FC021C98C10500676803 /* TamawatchiUITests */,
 				3075FBE11C98C10500676803 /* Products */,
+				D0803C550487AD1372B5F88E /* Pods */,
+				B64C794C339984EC968894B1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +111,7 @@
 				3075FBEA1C98C10500676803 /* Assets.xcassets */,
 				3075FBEC1C98C10500676803 /* LaunchScreen.storyboard */,
 				3075FBEF1C98C10500676803 /* Info.plist */,
+				3075FC111C98C11800676803 /* Tamawatchi-Bridging-Header.h */,
 			);
 			path = Tamawatchi;
 			sourceTree = "<group>";
@@ -125,6 +134,23 @@
 			path = TamawatchiUITests;
 			sourceTree = "<group>";
 		};
+		B64C794C339984EC968894B1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				826DD53C868667DDB0B1FB27 /* Pods_Tamawatchi.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D0803C550487AD1372B5F88E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				727B175FA8FC71AAD3C176B6 /* Pods-Tamawatchi.debug.xcconfig */,
+				D089A05604B69EA0BDEDA9E2 /* Pods-Tamawatchi.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +158,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3075FC081C98C10500676803 /* Build configuration list for PBXNativeTarget "Tamawatchi" */;
 			buildPhases = (
+				79688ECD752B3C2DCA7B501C /* Check Pods Manifest.lock */,
 				3075FBDC1C98C10500676803 /* Sources */,
 				3075FBDD1C98C10500676803 /* Frameworks */,
 				3075FBDE1C98C10500676803 /* Resources */,
+				138F6FD9331A4BA4B2D0F8DA /* Embed Pods Frameworks */,
+				963F46C082D029747E59BDE8 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,6 +279,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		138F6FD9331A4BA4B2D0F8DA /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tamawatchi/Pods-Tamawatchi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		79688ECD752B3C2DCA7B501C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		963F46C082D029747E59BDE8 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tamawatchi/Pods-Tamawatchi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3075FBDC1C98C10500676803 /* Sources */ = {
@@ -397,23 +474,30 @@
 		};
 		3075FC091C98C10500676803 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 727B175FA8FC71AAD3C176B6 /* Pods-Tamawatchi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Tamawatchi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = antelopeForest.Tamawatchi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tamawatchi/Tamawatchi-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		3075FC0A1C98C10500676803 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D089A05604B69EA0BDEDA9E2 /* Pods-Tamawatchi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Tamawatchi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = antelopeForest.Tamawatchi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tamawatchi/Tamawatchi-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -484,6 +568,7 @@
 				3075FC0A1C98C10500676803 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3075FC0B1C98C10500676803 /* Build configuration list for PBXNativeTarget "TamawatchiTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +577,7 @@
 				3075FC0D1C98C10500676803 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3075FC0E1C98C10500676803 /* Build configuration list for PBXNativeTarget "TamawatchiUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +586,7 @@
 				3075FC101C98C10500676803 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
