@@ -84,10 +84,18 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-Tamawatchi/Bolts.framework"
+  install_framework "Pods-Tamawatchi/FBSDKCoreKit.framework"
+  install_framework "Pods-Tamawatchi/FBSDKLoginKit.framework"
+  install_framework "Pods-Tamawatchi/FBSDKShareKit.framework"
   install_framework "Pods-Tamawatchi/Firebase.framework"
   install_framework "Pods-Tamawatchi/SwiftChart.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-Tamawatchi/Bolts.framework"
+  install_framework "Pods-Tamawatchi/FBSDKCoreKit.framework"
+  install_framework "Pods-Tamawatchi/FBSDKLoginKit.framework"
+  install_framework "Pods-Tamawatchi/FBSDKShareKit.framework"
   install_framework "Pods-Tamawatchi/Firebase.framework"
   install_framework "Pods-Tamawatchi/SwiftChart.framework"
 fi

@@ -3,3 +3,4 @@
 //
 
 #import <Pushbots/Pushbots.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>

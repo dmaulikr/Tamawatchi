@@ -8,6 +8,10 @@ pod 'SwiftChart'
 pod 'Firebase', '>= 2.5.0'
 pod 'Pushbots', '~> 1.2.3'
 
+pod 'FBSDKCoreKit'
+pod 'FBSDKLoginKit'
+pod 'FBSDKShareKit'
+
 end
 
 target 'TamawatchiTests' do
