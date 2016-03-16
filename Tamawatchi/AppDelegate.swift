@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        Pushbots.sharedInstanceWithAppId("54f4a0fe1d0ab1e3168b678");
+        Pushbots.sharedInstanceWithAppId("56e86de537d9b058018b4569");
         //Handle notification when the user click it, while app is closed.
         //This method will show an alert to the user.
         Pushbots.sharedInstance().receivedPush(launchOptions);
