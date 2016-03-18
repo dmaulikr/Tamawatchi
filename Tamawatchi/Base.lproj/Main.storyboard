@@ -22,12 +22,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xvN-3A-RnH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3626" y="769"/>
+            <point key="canvasLocation" x="-3636" y="769"/>
         </scene>
-        <!--View Controller-->
+        <!--Choose Animal View Controller-->
         <scene sceneID="h7h-7n-stT">
             <objects>
-                <viewController id="l4b-bM-RB6" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="chooseAnimalVC" id="l4b-bM-RB6" customClass="ChooseAnimalViewController" customModule="Tamawatchi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cKK-yD-UFh"/>
                         <viewControllerLayoutGuide type="bottom" id="hA6-VD-3hQ"/>
@@ -35,13 +35,19 @@
                     <view key="view" contentMode="scaleToFill" id="3Iv-o2-jYc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bfb-HA-chq">
+                                <rect key="frame" x="0.0" y="45" width="414" height="411"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EdQ-j4-yTJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3173" y="769"/>
+            <point key="canvasLocation" x="-3636" y="1611"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="lbR-qH-L4b">
@@ -114,7 +120,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gSJ-pe-5UB" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2714" y="769"/>
+            <point key="canvasLocation" x="-2980" y="797"/>
         </scene>
     </scenes>
 </document>

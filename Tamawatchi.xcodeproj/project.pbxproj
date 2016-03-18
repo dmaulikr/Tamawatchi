@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		17EA7D6924A9AB9EC037DB83 /* Pods_Tamawatchi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 826DD53C868667DDB0B1FB27 /* Pods_Tamawatchi.framework */; };
 		301A497A1C99C01700502BBA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301A49791C99C01700502BBA /* LoginViewController.swift */; };
+		301A497C1C9CA1F200502BBA /* ChooseAnimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */; };
 		3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE31C98C10500676803 /* AppDelegate.swift */; };
 		3075FBE61C98C10500676803 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE51C98C10500676803 /* ViewController.swift */; };
 		3075FBE91C98C10500676803 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3075FBE71C98C10500676803 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		301A49791C99C01700502BBA /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseAnimalViewController.swift; sourceTree = "<group>"; };
 		3075FBE01C98C10500676803 /* Tamawatchi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tamawatchi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3075FBE31C98C10500676803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3075FBE51C98C10500676803 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				3075FBEF1C98C10500676803 /* Info.plist */,
 				3075FC111C98C11800676803 /* Tamawatchi-Bridging-Header.h */,
 				301A49791C99C01700502BBA /* LoginViewController.swift */,
+				301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */,
 			);
 			path = Tamawatchi;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301A497A1C99C01700502BBA /* LoginViewController.swift in Sources */,
+				301A497C1C9CA1F200502BBA /* ChooseAnimalViewController.swift in Sources */,
 				3075FBE61C98C10500676803 /* ViewController.swift in Sources */,
 				3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */,
 			);
