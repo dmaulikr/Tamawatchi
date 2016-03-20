@@ -13,10 +13,15 @@ import Firebase
 
 class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
     var animals: NSArray = NSArray()
+    let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         
         fetchAnimals()
     }
@@ -33,22 +38,29 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        let cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         
-        cell.textLabel?.text = self.animals[indexPath.row] as? String
+        cell.textLabel?.text = "ANIMAL: \(self.animals[indexPath.row].valueForKey("name")!)"
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        let userId = ref.authData.uid
+        print("auth: \(userId)")
+        let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
+        let selectedPet = ["currentPet": self.animals[indexPath.row].valueForKey("name") as! String]
+        
+        currentUserRef.updateChildValues(selectedPet)
+        self.performSegueWithIdentifier("animalHomeSegue", sender: self)
     }
     
     func fetchAnimals(){
         
         print("fetching animal")
         
-        let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
+        
 
         if ((ref.authData) != nil) {
             // user authenticated
@@ -57,18 +69,34 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
             // No user is signed in
         }
         
-        //users/facebook:10154007100766419
-        ref.childByAppendingPath("animals").observeEventType(.Value, withBlock: { snapshot in
-        //self.ref.childByAppendingPath("animals").observeSingleEventOfType(.Value, withBlock: { snapshot in
-            print("snapshot is: \(snapshot)")
-            
-            
-            self.animals = snapshot.children.allObjects as! [FDataSnapshot]
-            print("ANIMALS: \(self.animals)")
-           
-            
+        ref.childByAppendingPath("animals").observeSingleEventOfType(.Value, withBlock: { snapshot in
+
+            self.animals = self.parseAnimalSnapshot(snapshot)
+            self.tableView.reloadData()
         })
-        
     }
     
+    func parseAnimalSnapshot(snapshot: FDataSnapshot) -> NSArray{
+        
+        let animalsObjectArray: NSMutableArray = NSMutableArray()
+        
+        for childSnap in  snapshot.children.allObjects as! [FDataSnapshot]{
+            let animalName = childSnap.key as NSString
+            let url = childSnap.value["url"]
+            animalsObjectArray.addObject(Animal(name:animalName, url: NSURL(string:url as! NSString as String)!))
+        }
+        
+        return animalsObjectArray
+    }
+}
+
+class Animal: NSObject {
+    
+    var name = NSString()
+    var url = NSURL()
+    
+    init(name: NSString, url: NSURL) {
+        self.name = name
+        self.url = url
+    }
 }

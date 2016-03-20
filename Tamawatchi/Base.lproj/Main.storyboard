@@ -39,20 +39,38 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bfb-HA-chq">
                                 <rect key="frame" x="0.0" y="45" width="414" height="411"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="MEx-b9-7dK">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MEx-b9-7dK" id="1Ab-mU-nQJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="l4b-bM-RB6" id="PFp-YA-IW5"/>
+                                    <outlet property="delegate" destination="l4b-bM-RB6" id="bhz-MF-ftu"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="tableView" destination="Bfb-HA-chq" id="wOh-ot-bD4"/>
+                        <segue destination="Sfw-Up-L0x" kind="show" identifier="animalHomeSegue" id="GRZ-qr-Koe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EdQ-j4-yTJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3636" y="1611"/>
+            <point key="canvasLocation" x="-3628" y="1596"/>
         </scene>
-        <!--View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="lbR-qH-L4b">
             <objects>
-                <viewController storyboardIdentifier="homeVC" id="Sfw-Up-L0x" customClass="ViewController" customModule="Tamawatchi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="Sfw-Up-L0x" customClass="HomeViewController" customModule="Tamawatchi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hds-P9-lc7"/>
                         <viewControllerLayoutGuide type="bottom" id="VDx-7Z-R4Y"/>

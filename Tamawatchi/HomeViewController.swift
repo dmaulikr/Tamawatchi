@@ -10,7 +10,7 @@ import UIKit
 import SwiftChart
 
 
-class ViewController: UIViewController, ChartDelegate {
+class HomeViewController: UIViewController, ChartDelegate {
     
     @IBOutlet weak var mediaView: UIWebView!
     @IBOutlet weak var chart: Chart!
@@ -18,7 +18,9 @@ class ViewController: UIViewController, ChartDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let requestObj = NSURLRequest(URL: NSURL(string: "https://portal.hdontap.com/s/embed?stream=eagle1_skidaway-HDOT")!)
+        let url: NSString = "https://portal.hdontap.com/s/embed?stream=eagle1_skidaway-HDOT"
+        
+        let requestObj = NSURLRequest(URL: NSURL(string: url as String)!)
         mediaView.allowsInlineMediaPlayback = true;
   
         mediaView.loadRequest(requestObj)

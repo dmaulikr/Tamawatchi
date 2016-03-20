@@ -12,7 +12,7 @@
 		301A497C1C9CA1F200502BBA /* ChooseAnimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */; };
 		301A497E1C9DDA0900502BBA /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301A497D1C9DDA0900502BBA /* Bolts.framework */; };
 		3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE31C98C10500676803 /* AppDelegate.swift */; };
-		3075FBE61C98C10500676803 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE51C98C10500676803 /* ViewController.swift */; };
+		3075FBE61C98C10500676803 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE51C98C10500676803 /* HomeViewController.swift */; };
 		3075FBE91C98C10500676803 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3075FBE71C98C10500676803 /* Main.storyboard */; };
 		3075FBEB1C98C10500676803 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3075FBEA1C98C10500676803 /* Assets.xcassets */; };
 		3075FBEE1C98C10500676803 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3075FBEC1C98C10500676803 /* LaunchScreen.storyboard */; };
@@ -43,7 +43,7 @@
 		301A497D1C9DDA0900502BBA /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "Pods/../build/Debug-iphoneos/Bolts.framework"; sourceTree = "<group>"; };
 		3075FBE01C98C10500676803 /* Tamawatchi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tamawatchi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3075FBE31C98C10500676803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3075FBE51C98C10500676803 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3075FBE51C98C10500676803 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3075FBE81C98C10500676803 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3075FBEA1C98C10500676803 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3075FBED1C98C10500676803 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				3075FBE31C98C10500676803 /* AppDelegate.swift */,
-				3075FBE51C98C10500676803 /* ViewController.swift */,
+				3075FBE51C98C10500676803 /* HomeViewController.swift */,
 				3075FBE71C98C10500676803 /* Main.storyboard */,
 				3075FBEA1C98C10500676803 /* Assets.xcassets */,
 				3075FBEC1C98C10500676803 /* LaunchScreen.storyboard */,
@@ -351,7 +351,7 @@
 			files = (
 				301A497A1C99C01700502BBA /* LoginViewController.swift in Sources */,
 				301A497C1C9CA1F200502BBA /* ChooseAnimalViewController.swift in Sources */,
-				3075FBE61C98C10500676803 /* ViewController.swift in Sources */,
+				3075FBE61C98C10500676803 /* HomeViewController.swift in Sources */,
 				3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

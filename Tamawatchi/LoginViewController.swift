@@ -23,14 +23,21 @@ class LoginViewController: UIViewController {
         loginButton.center = self.view.center
         loginButton.addTarget(self, action: "loginPressed", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(loginButton)
+
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         
         print("stored user: \(FBSDKAccessToken.currentAccessToken())")
         
         if(FBSDKAccessToken.currentAccessToken() != nil){
-            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
-            self.presentViewController(viewController, animated: true, completion: nil)
+            //            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
+            //            self.presentViewController(viewController, animated: true, completion: nil)
+            
+            //TEMP
+            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
+            self.presentViewController(viewController, animated: false, completion: nil)
         }
-        
         
     }
     
@@ -79,15 +86,18 @@ class LoginViewController: UIViewController {
                                         print("snapshot has child: \(snapshot.hasChild("currentPet")) and the path is: \(snapshot.childSnapshotForPath("currentPet"))")
                                             
                                         if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
-                                            
+                                           
                                             let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
                                             self.presentViewController(viewController, animated: true, completion: nil)
                                         }
                                         else{
                                             print("segue to choose animal")
-                                           
+                                            
+                                            
                                             let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
                                             self.presentViewController(viewController, animated: true, completion: nil)
+                                          
+                                            
                                         }
                                     }
                                 })
