@@ -52,7 +52,7 @@
         <!--View Controller-->
         <scene sceneID="lbR-qH-L4b">
             <objects>
-                <viewController id="Sfw-Up-L0x" customClass="ViewController" customModule="Tamawatchi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="Sfw-Up-L0x" customClass="ViewController" customModule="Tamawatchi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hds-P9-lc7"/>
                         <viewControllerLayoutGuide type="bottom" id="VDx-7Z-R4Y"/>

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CEACC807F4DA2FDCA57514DC'
+               BlueprintIdentifier = '91529B0C89B2F131AE411227'
                BlueprintName = 'Pods-Tamawatchi'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_Tamawatchi.framework'>

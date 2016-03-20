@@ -9,6 +9,7 @@
 import UIKit
 import PushKit
 import FBSDKCoreKit
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

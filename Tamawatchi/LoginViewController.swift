@@ -18,17 +18,22 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         let loginButton: FBSDKLoginButton = FBSDKLoginButton()
         loginButton.center = self.view.center
         loginButton.addTarget(self, action: "loginPressed", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(loginButton)
         
+        print("stored user: \(FBSDKAccessToken.currentAccessToken())")
         
-        if((NSUserDefaults.standardUserDefaults().objectForKey("currentUser")?.exists()) != nil){
+        if(FBSDKAccessToken.currentAccessToken() != nil){
             let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
             self.presentViewController(viewController, animated: true, completion: nil)
         }
+        
+        
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -39,6 +44,9 @@ class LoginViewController: UIViewController {
         
             let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
             let facebookLogin = FBSDKLoginManager()
+        
+            facebookLogin.loginBehavior = FBSDKLoginBehavior.SystemAccount
+
             facebookLogin.logInWithReadPermissions(["public_profile"],  fromViewController: self, handler: {
                 (facebookResult, facebookError) -> Void in
                 
@@ -105,7 +113,4 @@ class LoginViewController: UIViewController {
         }
         
     }
-
-    
-    
 }
