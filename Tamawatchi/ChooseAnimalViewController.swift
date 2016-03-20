@@ -32,7 +32,12 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        
+        var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        
+        cell.textLabel?.text = self.animals[indexPath.row] as? String
+        
+        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -53,11 +58,15 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         //users/facebook:10154007100766419
-        ref.childByAppendingPath("users").observeEventType(.Value, withBlock: { snapshot in
+        ref.childByAppendingPath("animals").observeEventType(.Value, withBlock: { snapshot in
         //self.ref.childByAppendingPath("animals").observeSingleEventOfType(.Value, withBlock: { snapshot in
             print("snapshot is: \(snapshot)")
-            print("snapshot kids is: \(snapshot.children)")
-            //self.animals =  snapshot.value
+            
+            
+            self.animals = snapshot.children.allObjects as! [FDataSnapshot]
+            print("ANIMALS: \(self.animals)")
+           
+            
         })
         
     }
