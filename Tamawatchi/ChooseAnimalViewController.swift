@@ -16,6 +16,7 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var tableView: UITableView!
     var animals: NSArray = NSArray()
     let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
+    var selectedAnimal: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,7 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
         
         let cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
         
-        cell.textLabel?.text = "ANIMAL: \(self.animals[indexPath.row].valueForKey("name")!)"
+        cell.textLabel?.text = "\(self.animals[indexPath.row].valueForKey("name")!)"
         
         return cell
     }
@@ -53,21 +54,13 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
         let selectedPet = ["currentPet": self.animals[indexPath.row].valueForKey("name") as! String]
         
         currentUserRef.updateChildValues(selectedPet)
+        
+        selectedAnimal = (self.animals[indexPath.row].valueForKey("name") as? String)!
+        
         self.performSegueWithIdentifier("animalHomeSegue", sender: self)
     }
     
     func fetchAnimals(){
-        
-        print("fetching animal")
-        
-        
-
-        if ((ref.authData) != nil) {
-            // user authenticated
-            print("auth: \(ref.authData)")
-        } else {
-            // No user is signed in
-        }
         
         ref.childByAppendingPath("animals").observeSingleEventOfType(.Value, withBlock: { snapshot in
 
@@ -87,6 +80,12 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         return animalsObjectArray
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        
+        let svc = segue.destinationViewController as! HomeViewController;
+        svc.myAnimal = self.selectedAnimal!
     }
 }
 

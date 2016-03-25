@@ -8,24 +8,34 @@
 
 import UIKit
 import SwiftChart
-
+import Firebase
 
 class HomeViewController: UIViewController, ChartDelegate {
     
     @IBOutlet weak var mediaView: UIWebView!
     @IBOutlet weak var chart: Chart!
     
+    var myAnimal: String?
+    var url: NSString = NSString()
+    let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url: NSString = "https://portal.hdontap.com/s/embed?stream=eagle1_skidaway-HDOT"
-        
-        let requestObj = NSURLRequest(URL: NSURL(string: url as String)!)
-        mediaView.allowsInlineMediaPlayback = true;
-  
-        mediaView.loadRequest(requestObj)
-        
-        
+        ref.childByAppendingPath("animals/\(myAnimal!)/url").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            
+            if(snapshot.exists()){
+                let requestObj = NSURLRequest(URL: NSURL(string: snapshot.value as! String)!)
+                self.mediaView.allowsInlineMediaPlayback = true;
+                self.mediaView.loadRequest(requestObj)
+
+            }
+            else{
+                print("animal: \(self.myAnimal!) doesnt exisit")
+            }
+            
+        })
+
         chart.delegate = self
         
         // Simple chart
@@ -47,7 +57,7 @@ class HomeViewController: UIViewController, ChartDelegate {
     //MARK: Chart delegate
     func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
         for (seriesIndex, dataIndex) in indexes.enumerate() {
-            if let value = chart.valueForSeries(seriesIndex, atIndex: dataIndex) {
+            if let _ = chart.valueForSeries(seriesIndex, atIndex: dataIndex) {
               //  print("Touched series: \(seriesIndex): data index: \(dataIndex!); series value: \(value); x-axis value: \(x) (from left: \(left))")
             }
         }
