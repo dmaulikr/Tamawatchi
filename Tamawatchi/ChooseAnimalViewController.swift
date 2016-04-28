@@ -48,22 +48,36 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let userId = ref.authData.uid
-        print("auth: \(userId)")
-        let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
-        let selectedPet = ["currentPet": self.animals[indexPath.row].valueForKey("name") as! String]
         
-        currentUserRef.updateChildValues(selectedPet)
         
-        selectedAnimal = (self.animals[indexPath.row].valueForKey("name") as? String)!
+        let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
+        if ref.authData != nil {
+            // user authenticated
+            print(ref.authData)
+            
+            let userId = ref.authData.uid
+            print("auth: \(userId)")
+            let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
+            let selectedPet = ["currentPet": self.animals[indexPath.row].valueForKey("name") as! String]
+            
+            currentUserRef.updateChildValues(selectedPet)
+            
+            selectedAnimal = (self.animals[indexPath.row].valueForKey("name") as? String)!
+            
+            print("segue from tableview")
+            self.performSegueWithIdentifier("animalHomeSegue", sender: self)
+            
+        } else {
+            // No user is signed in
+            print("no user signed in")
+        }
         
-        self.performSegueWithIdentifier("animalHomeSegue", sender: self)
     }
     
     func fetchAnimals(){
         
         ref.childByAppendingPath("animals").observeSingleEventOfType(.Value, withBlock: { snapshot in
-
+            print("just fetched")
             self.animals = self.parseAnimalSnapshot(snapshot)
             self.tableView.reloadData()
         })
@@ -72,18 +86,20 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     func parseAnimalSnapshot(snapshot: FDataSnapshot) -> NSArray{
         
         let animalsObjectArray: NSMutableArray = NSMutableArray()
-        
+        print("paring")
         for childSnap in  snapshot.children.allObjects as! [FDataSnapshot]{
             let animalName = childSnap.key as NSString
             let url = childSnap.value["url"]
+            print("About to add obj: \(animalName), \(url)")
             animalsObjectArray.addObject(Animal(name:animalName, url: NSURL(string:url as! NSString as String)!))
+            
         }
-        
+        print("return fetched array")
         return animalsObjectArray
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        
+        print("segue")
         let svc = segue.destinationViewController as! HomeViewController;
         svc.myAnimal = self.selectedAnimal!
     }

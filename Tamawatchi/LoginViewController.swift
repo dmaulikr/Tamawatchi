@@ -87,6 +87,7 @@ class LoginViewController: UIViewController {
                                             
                                         if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
                                            
+                                            print("in if")
                                             let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
                                             self.presentViewController(viewController, animated: true, completion: nil)
                                         }

@@ -14,6 +14,7 @@ PODS:
   - Firebase (2.5.1)
   - Pushbots (1.2.3)
   - SwiftChart (0.2.1)
+  - UIView+Shake (1.1.5)
 
 DEPENDENCIES:
   - FBSDKCoreKit
@@ -22,6 +23,7 @@ DEPENDENCIES:
   - Firebase (>= 2.5.0)
   - Pushbots (~> 1.2.3)
   - SwiftChart
+  - UIView+Shake
 
 SPEC CHECKSUMS:
   Bolts: f52a250053bb517ca874523c3913776359ab3def
@@ -31,5 +33,6 @@ SPEC CHECKSUMS:
   Firebase: 3565ea88b830f28f2c77ecc524622bc71a20d085
   Pushbots: b58e3aeafb4304257ed26e802e0057310787d9a2
   SwiftChart: b76d4607022107a46473aa29a93c867872253d68
+  UIView+Shake: 2d2185006d38ee5daed07f14c0989f703f86682f
 
 COCOAPODS: 0.39.0

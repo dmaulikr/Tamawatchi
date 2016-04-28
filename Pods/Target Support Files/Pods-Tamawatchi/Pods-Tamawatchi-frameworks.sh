@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Tamawatchi/FBSDKShareKit.framework"
   install_framework "Pods-Tamawatchi/Firebase.framework"
   install_framework "Pods-Tamawatchi/SwiftChart.framework"
+  install_framework "Pods-Tamawatchi/UIView_Shake.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Tamawatchi/Bolts.framework"
@@ -98,4 +99,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Tamawatchi/FBSDKShareKit.framework"
   install_framework "Pods-Tamawatchi/Firebase.framework"
   install_framework "Pods-Tamawatchi/SwiftChart.framework"
+  install_framework "Pods-Tamawatchi/UIView_Shake.framework"
 fi

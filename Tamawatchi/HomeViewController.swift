@@ -9,6 +9,7 @@
 import UIKit
 import SwiftChart
 import Firebase
+import UIView_Shake
 
 class HomeViewController: UIViewController, ChartDelegate {
     
@@ -53,8 +54,30 @@ class HomeViewController: UIViewController, ChartDelegate {
     }
     
     
+    //refactor name when final purpose is determined
+    @IBAction func bottomButtonPressed(sender: AnyObject) {
+        
+        
+        //chain 3 random movements together... there may be a better way to do this
+        self.mediaView.shake(5, withDelta: 8, speed:0.8) {
+
+            self.mediaView.shake(70, withDelta: 3, speed:0.08) {
+                
+                self.mediaView.shake(20, withDelta: 8, speed:0.25) {
+                    
+                    UIAlertView(title:"Nice Job!", message:"Thanks to you, your \(self.myAnimal!) survived.", delegate:nil, cancelButtonTitle:"OK").show();
+                }
+            }
+        }
+    }
+   
+    
+    // ******************************************************************** //
     
     //MARK: Chart delegate
+    
+    // ******************************************************************** //
+    
     func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
         for (seriesIndex, dataIndex) in indexes.enumerate() {
             if let _ = chart.valueForSeries(seriesIndex, atIndex: dataIndex) {

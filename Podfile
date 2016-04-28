@@ -11,6 +11,7 @@ pod 'Pushbots', '~> 1.2.3'
 pod 'FBSDKCoreKit'
 pod 'FBSDKLoginKit'
 pod 'FBSDKShareKit'
+pod 'UIView+Shake'
 
 end
 
