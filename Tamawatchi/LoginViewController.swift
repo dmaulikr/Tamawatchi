@@ -18,11 +18,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         let loginButton: FBSDKLoginButton = FBSDKLoginButton()
         loginButton.center = self.view.center
         loginButton.addTarget(self, action: "loginPressed", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(loginButton)
+        
+        print("login view did load")
 
     }
     
@@ -31,12 +32,13 @@ class LoginViewController: UIViewController {
         print("stored user: \(FBSDKAccessToken.currentAccessToken())")
         
         if(FBSDKAccessToken.currentAccessToken() != nil){
-            //            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
-            //            self.presentViewController(viewController, animated: true, completion: nil)
             
             //TEMP
-            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
-            self.presentViewController(viewController, animated: false, completion: nil)
+            print("seguing from login")
+            
+            self.loginFirebase()
+//            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
+//            self.presentViewController(viewController, animated: false, completion: nil)
         }
         
     }
@@ -62,52 +64,107 @@ class LoginViewController: UIViewController {
                 } else if facebookResult.isCancelled {
                     print("Facebook login was cancelled.")
                 } else {
-                    let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-                    ref.authWithOAuthProvider("facebook", token: accessToken,
-                        withCompletionBlock: { error, authData in
-                            if error != nil {
-                                print("Login failed. \(error)")
-                            } else {
-                                print("Logged in! \(authData)")
-                                
-                                //check if user already exists
-                                ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
-                                    print("snapshot is: \(snapshot)")
-                                    if(!snapshot.exists()){
-                                        print("made new user")
-                                        let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
-                                        
-                                        ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
-                                        
-                                        NSUserDefaults.standardUserDefaults().setObject(authData, forKey: "currentUser")
-                                        self.performSegueWithIdentifier("chooseAnimal", sender: self)
-                                    }
-                                    else{
-                                        print("snapshot has child: \(snapshot.hasChild("currentPet")) and the path is: \(snapshot.childSnapshotForPath("currentPet"))")
-                                            
-                                        if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
-                                           
-                                            print("in if")
-                                            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
-                                            self.presentViewController(viewController, animated: true, completion: nil)
-                                        }
-                                        else{
-                                            print("segue to choose animal")
-                                            
-                                            
-                                            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
-                                            self.presentViewController(viewController, animated: true, completion: nil)
-                                          
-                                            
-                                        }
-                                    }
-                                })
-                            }
-                    })
+                    self.loginFirebase()
+                    //let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+//                    ref.authWithOAuthProvider("facebook", token: accessToken,
+//                        withCompletionBlock: { error, authData in
+//                            if error != nil {
+//                                print("Login failed. \(error)")
+//                            } else {
+//                                print("Logged in! \(authData)")
+//                                
+//                                //check if user already exists
+//                                ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
+//                                    print("snapshot is: \(snapshot)")
+//                                    if(!snapshot.exists()){
+//                                        print("made new user")
+//                                        let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
+//                                        
+//                                        ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
+//                                        
+//                                        NSUserDefaults.standardUserDefaults().setObject(authData, forKey: "currentUser")
+//                                        self.performSegueWithIdentifier("chooseAnimal", sender: self)
+//                                    }
+//                                    else{
+//                                        print("snapshot has child: \(snapshot.hasChild("currentPet")) and the path is: \(snapshot.childSnapshotForPath("currentPet"))")
+//                                            
+//                                        if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
+//                                           
+//                                            print("in if")
+//                                            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
+//                                            self.presentViewController(viewController, animated: true, completion: nil)
+//                                        }
+//                                        else{
+//                                            print("segue to choose animal")
+//                                            
+//                                            
+//                                            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
+//                                            self.presentViewController(viewController, animated: true, completion: nil)
+//                                          
+//                                            
+//                                        }
+//                                    }
+//                                })
+//                            }
+//                    })
                 }
             })
         
            }
+    
+    
+    func loginFirebase() {
+        
+        let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
+        let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
+        
+        ref.authWithOAuthProvider("facebook", token: accessToken,
+            withCompletionBlock: { error, authData in
+                if error != nil {
+                    print("Login failed. \(error)")
+                } else {
+                    print("Logged in! \(authData)")
+                    
+                    //check if user already exists
+                    ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
+                        print("snapshot is: \(snapshot)")
+                        if(!snapshot.exists()){
+                            print("made new user")
+                            let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
+                            
+                            ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
+                            
+                            NSUserDefaults.standardUserDefaults().setObject(authData, forKey: "currentUser")
+                            self.performSegueWithIdentifier("chooseAnimal", sender: self)
+                        }
+                        else{
+                            print("snapshot has child: \(snapshot.hasChild("currentPet")) and the path is: \(snapshot.childSnapshotForPath("currentPet"))")
+                            
+                            let defaults = NSUserDefaults.standardUserDefaults()
+                            defaults.setObject(snapshot.childSnapshotForPath("currentPet").value as! String, forKey: "myAnimal")
+                            
+                            if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
+                                
+                                print("in if")
+                                let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
+                                print("set vc")
+                                self.presentViewController(viewController, animated: true, completion: nil)
+                            }
+                            else{
+                                print("segue to choose animal")
+                                
+                                
+                                let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
+                                self.presentViewController(viewController, animated: true, completion: nil)
+                                
+                                
+                            }
+                        }
+                    })
+                }
+        })
+
+    }
     
    
     func topMostController()-> UIViewController {

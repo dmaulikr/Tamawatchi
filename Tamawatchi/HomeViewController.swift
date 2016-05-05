@@ -7,21 +7,39 @@
 //
 
 import UIKit
-import SwiftChart
 import Firebase
+import QuartzCore
 import UIView_Shake
+import Foundation
 
-class HomeViewController: UIViewController, ChartDelegate {
+class HomeViewController: UIViewController {
     
     @IBOutlet weak var mediaView: UIWebView!
-    @IBOutlet weak var chart: Chart!
+    @IBOutlet weak var userProgress: UIProgressView!
+    @IBOutlet weak var tapButton: UIButton!
+    @IBOutlet weak var hydrateButton: UIButton!
     
     var myAnimal: String?
-    var url: NSString = NSString()
     let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
+
+    var decreaseTimerJob: NSTimer = NSTimer()
+    var earthQuakeJob: NSTimer = NSTimer()
+    var changeDelta: NSTimer = NSTimer()
+    
+    var delta: Float = 15.0
+    var earthQuakeOver: Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tapButton.hidden = true
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        self.myAnimal = defaults.stringForKey("myAnimal")
+        self.tapButton.layer.cornerRadius = self.tapButton.frame.width*0.5
+        
+        print("in home vc")
         
         ref.childByAppendingPath("animals/\(myAnimal!)/url").observeSingleEventOfType(.Value, withBlock: { snapshot in
             
@@ -29,6 +47,8 @@ class HomeViewController: UIViewController, ChartDelegate {
                 let requestObj = NSURLRequest(URL: NSURL(string: snapshot.value as! String)!)
                 self.mediaView.allowsInlineMediaPlayback = true;
                 self.mediaView.loadRequest(requestObj)
+                
+                 print("url: \(snapshot.value as! String)!), my animal: \(self.myAnimal!)")
 
             }
             else{
@@ -36,16 +56,6 @@ class HomeViewController: UIViewController, ChartDelegate {
             }
             
         })
-
-        chart.delegate = self
-        
-        // Simple chart
-        let series = ChartSeries([0, 6, 6, 5, 7, 4, 1, 4, 5])
-        series.color = ChartColors.greenColor()
-        chart.areaAlphaComponent = 0.3
-        series.area = true
-        chart.addSeries(series)
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,46 +67,114 @@ class HomeViewController: UIViewController, ChartDelegate {
     //refactor name when final purpose is determined
     @IBAction func bottomButtonPressed(sender: AnyObject) {
         
+        self.userProgress.hidden = false
+        self.tapButton.hidden = false
+        self.hydrateButton.userInteractionEnabled = false
         
-        //chain 3 random movements together... there may be a better way to do this
-        self.mediaView.shake(5, withDelta: 8, speed:0.8) {
-
-            self.mediaView.shake(70, withDelta: 3, speed:0.08) {
+        self.userProgress.progress = 0.5
+    
+        
+        self.earthQuakeJob = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("earthquake:"), userInfo: nil, repeats: true)
+        
+        self.decreaseTimerJob = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("decreaseProgress"), userInfo: nil, repeats: true)
+        
+        self.changeDelta = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("changeDeltaFunction"), userInfo: nil, repeats: true)
+    }
+    
+    
+    @IBAction func tapButtonPressed(sender: AnyObject) {
+        updateProgressBarBy((1/self.userProgress.progress)/75);
+    }
+    
+    
+    func earthquake(timer: NSTimer){
+        
+        self.mediaView.shake(Int32((1/self.userProgress.progress)*1), withDelta: CGFloat(self.delta), speed: NSTimeInterval(0.5/((1/self.userProgress.progress)*1))) { () -> Void in
+            
+            //if finished, show alert
+            if(self.userProgress.progress > 0.99 && self.earthQuakeOver == false)
+            {
+                self.earthQuakeOver = true
+                self.decreaseTimerJob.invalidate()
+                self.earthQuakeJob.invalidate()
+                self.changeDelta.invalidate()
                 
-                self.mediaView.shake(20, withDelta: 8, speed:0.25) {
-                    
-                    UIAlertView(title:"Nice Job!", message:"Thanks to you, your \(self.myAnimal!) survived.", delegate:nil, cancelButtonTitle:"OK").show();
-                }
-            }
-        }
-    }
-   
-    
-    // ******************************************************************** //
-    
-    //MARK: Chart delegate
-    
-    // ******************************************************************** //
-    
-    func didTouchChart(chart: Chart, indexes: Array<Int?>, x: Float, left: CGFloat) {
-        for (seriesIndex, dataIndex) in indexes.enumerate() {
-            if let _ = chart.valueForSeries(seriesIndex, atIndex: dataIndex) {
-              //  print("Touched series: \(seriesIndex): data index: \(dataIndex!); series value: \(value); x-axis value: \(x) (from left: \(left))")
+                self.showAlert("Nice Job!", message: "Thanks to you, your \(self.myAnimal!) survived.", cancelButton: "OK")
+                
+                self.userProgress.hidden = true
+                self.tapButton.hidden = true
+                self.hydrateButton.userInteractionEnabled = true
             }
         }
     }
     
-    func didFinishTouchingChart(chart: Chart) {
+    func updateProgressBarBy(incrementValue: Float){
         
+        //without this, it would never reach finish
+        if(self.userProgress.progress > 0.99)
+        {
+            self.userProgress.progress = 1;
+        }
+        else{
+            self.userProgress.progress += incrementValue
+        }
+    }
+    
+    func decreaseProgress()
+    {
+        if(self.userProgress.progress > 0.01){
+            self.userProgress.progress -= 0.0025;
+    }
+        else{
+            self.decreaseTimerJob.invalidate()
+            self.earthQuakeJob.invalidate()
+            self.changeDelta.invalidate()
+            
+            self.showAlert("Uh oh!", message: "Your \(self.myAnimal!) died. Do you even care?", cancelButton: "OK")
+            
+            self.userProgress.hidden = true
+            self.tapButton.hidden = true
+            self.hydrateButton.userInteractionEnabled = true
+            
+            self.petDied()
+            
+            UIView.animateWithDuration(1.5, animations: {
+                self.mediaView.alpha = 0
+            })
+        }
+    }
+    
+    func changeDeltaFunction(){
+        self.delta = Float(arc4random_uniform(10) + UInt32(5))
     }
     
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    func petDied (){
         
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        
-        // Redraw chart on rotation
-        chart.setNeedsDisplay()
-        
+        //update DB
+        let userId = ref.authData.uid
+        print("auth: \(userId)")
+        let postRef = self.ref.childByAppendingPath("users/\(userId)").childByAppendingPath("deadPets")
+        let petInfo = ["type": self.myAnimal!]
+        let post1Ref = postRef.childByAutoId()
+        post1Ref.setValue(petInfo)
     }
+    
+    @IBAction func newPetPressed(sender: AnyObject) {
+        
+        let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
+        self.presentViewController(viewController, animated: true, completion: nil)
+    }
+    
+    func showAlert(title: String, message: String, cancelButton: String){
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        let defaultAction = UIAlertAction(title: cancelButton, style: .Default, handler: nil)
+        alertController.addAction(defaultAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+
+    }
+
 }
