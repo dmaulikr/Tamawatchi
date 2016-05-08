@@ -13,6 +13,12 @@ pod 'FBSDKLoginKit'
 pod 'FBSDKShareKit'
 pod 'UIView+Shake'
 
+pod 'Google/CloudMessaging'
+pod 'Google/Analytics'
+pod 'Google/SignIn'
+
+pod 'AWBanner', '~> 0.1'
+
 end
 
 target 'TamawatchiTests' do

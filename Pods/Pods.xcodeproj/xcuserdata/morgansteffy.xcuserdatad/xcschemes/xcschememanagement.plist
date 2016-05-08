@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AWBanner-AWBanner.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>AWBanner.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Bolts.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,17 +57,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>1BDBA570158F1A7080D08261CB5A5EF2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2AD065DF38C9CAD2A43E43B92D258ECB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>43ADC7F429457DE66DBB8926FEB6D425</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5597F26DAE9F2E854A96F7BD1001815B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>5D69761C2CD2A1E5C013537B29CAB4CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>63A18C6A528BD7E47DDAF39B2AEAF1D1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9188568E8136C6B4749FD5315E26E051</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -72,17 +97,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F419A4FE10F982BFA1D2BEBBD77BA62E</key>
+		<key>D9D96AE1506C6E0FF7E71EB231D3C0C0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>F5ACF367AE3BD7A7F2AF2D430901DF7B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FB33D8D73B1983982C46DE42C61C3E65</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -84,6 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-Tamawatchi/AWBanner.framework"
   install_framework "Pods-Tamawatchi/Bolts.framework"
   install_framework "Pods-Tamawatchi/FBSDKCoreKit.framework"
   install_framework "Pods-Tamawatchi/FBSDKLoginKit.framework"
@@ -93,6 +94,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Tamawatchi/UIView_Shake.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-Tamawatchi/AWBanner.framework"
   install_framework "Pods-Tamawatchi/Bolts.framework"
   install_framework "Pods-Tamawatchi/FBSDKCoreKit.framework"
   install_framework "Pods-Tamawatchi/FBSDKLoginKit.framework"

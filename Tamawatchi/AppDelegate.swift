@@ -29,25 +29,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    
-    
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         let handled: Bool = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         // Add any custom logic here.
         return handled
     }
-
-
-
-//
-//    func application(application: UIApplication, openURL url: NSURL,
-//        sourceApplication: String?, annotation: AnyObject) -> Bool {
-//            return FBSDKApplicationDelegate.sharedInstance()
-//                .application(application, openURL: url,
-//                    sourceApplication: sourceApplication, annotation: annotation)
-//    }
-//    
+  
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -80,13 +68,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication,
         didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
             //Handle notification when the user click it while app is running in background or foreground.
-            Pushbots.sharedInstance().receivedPush(userInfo);
+          //  Pushbots.sharedInstance().receivedPush(userInfo);
+            
+            print("payload : \(userInfo) -> \(userInfo["msgType"])")
+            
+            if(userInfo["msgType"] as! String == "earthquake"){
+                print("RUN EARTHQUAKE HERE")
+                NSNotificationCenter.defaultCenter().postNotificationName("startEarthquake", object: nil)
+            }
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         // This method will be called everytime you open the app
         // Register the deviceToken on Pushbots
         Pushbots.sharedInstance().registerOnPushbots(deviceToken);
+        
+       // NSUserDefaults.setValue(value: "test", forKey: "pushToken")
+        NSUserDefaults.standardUserDefaults().setObject(deviceToken.hexString, forKey: "pushToken")
+
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -110,11 +109,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return;
         }
         
-        let alert = pushNotification!.objectForKey("alert") as! String;
+        print("payload : \(pushNotification)")
+        
+     //   let alert = pushNotification!.objectForKey("alert") as! String;
         
         //Show alert
-        UIAlertView(title:"Notification!", message:alert, delegate:nil, cancelButtonTitle:"OK").show();
+      //  UIAlertView(title:"Notification!", message:alert, delegate:nil, cancelButtonTitle:"OK").show();
         
     }
     
+}
+
+//to convert deviceToken to string to save in Firebase
+extension NSData {
+    var hexString: String {
+        let bytes = UnsafeBufferPointer<UInt8>(start: UnsafePointer(self.bytes), count:self.length)
+        return bytes.map { String(format: "%02hhx", $0) }.reduce("", combine: { $0 + $1 })
+    }
 }

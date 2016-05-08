@@ -4,3 +4,4 @@
 
 #import <Pushbots/Pushbots.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Google/CloudMessaging.h>

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A22150A5BA8B80BD5201B6A6'
+               BlueprintIdentifier = '7B77D1FE269A24BE0F74732B'
                BlueprintName = 'UIView+Shake'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'UIView_Shake.framework'>

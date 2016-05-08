@@ -160,6 +160,12 @@ class LoginViewController: UIViewController {
                                 
                             }
                         }
+                        
+                        //set user push token
+                        let userId = ref.authData.uid
+                        let currentUserRef = ref.childByAppendingPath("users/\(userId)")
+                        let pushToken = ["pushToken": NSUserDefaults.standardUserDefaults().valueForKey("pushToken") as! String]
+                        currentUserRef.updateChildValues(pushToken)
                     })
                 }
         })

@@ -50,8 +50,6 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        
-        
         let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
         if ref.authData != nil {
             // user authenticated

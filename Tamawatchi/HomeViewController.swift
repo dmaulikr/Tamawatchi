@@ -11,6 +11,7 @@ import Firebase
 import QuartzCore
 import UIView_Shake
 import Foundation
+import AWBanner
 
 class HomeViewController: UIViewController {
     
@@ -25,6 +26,7 @@ class HomeViewController: UIViewController {
     var decreaseTimerJob: NSTimer = NSTimer()
     var earthQuakeJob: NSTimer = NSTimer()
     var changeDelta: NSTimer = NSTimer()
+    var thanksMessages: [String] = []
     
     var delta: Float = 15.0
     var earthQuakeOver: Bool = false
@@ -33,7 +35,11 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "startEarthquake:", name:"startEarthquake", object: nil)
+        
         self.tapButton.hidden = true
+        
+        
         
         let defaults = NSUserDefaults.standardUserDefaults()
         self.myAnimal = defaults.stringForKey("myAnimal")
@@ -46,9 +52,10 @@ class HomeViewController: UIViewController {
             if(snapshot.exists()){
                 let requestObj = NSURLRequest(URL: NSURL(string: snapshot.value as! String)!)
                 self.mediaView.allowsInlineMediaPlayback = true;
+                self.mediaView.mediaPlaybackRequiresUserAction = false;
                 self.mediaView.loadRequest(requestObj)
                 
-                 print("url: \(snapshot.value as! String)!), my animal: \(self.myAnimal!)")
+                print("url: \(snapshot.value as! String)!), my animal: \(self.myAnimal!)")
 
             }
             else{
@@ -56,6 +63,27 @@ class HomeViewController: UIViewController {
             }
             
         })
+        
+        ref.childByAppendingPath("messages/thanks").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            
+            if(snapshot.exists()){
+                
+                for childSnap in  snapshot.children.allObjects as! [FDataSnapshot]{
+                    let response = childSnap.value as! NSString
+                   // let url = childSnap.value["url"]
+                    print("About to add obj: \(response)")
+                    self.thanksMessages.append(response as String)
+                }
+            }
+            else{
+               self.thanksMessages.append("Thanks!")
+            }
+        })
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,18 +95,51 @@ class HomeViewController: UIViewController {
     //refactor name when final purpose is determined
     @IBAction func bottomButtonPressed(sender: AnyObject) {
         
+        AWBanner.showWithDuration(2.5,
+            delay: 0.0,
+            message: NSLocalizedString(self.thanksMessages[Int(arc4random_uniform(UInt32(self.thanksMessages.count-1)))] , comment: ""),
+            backgroundColor: UIColor(red:0.25, green:0.73, blue:0.56, alpha:1.0),
+            textColor: UIColor.whiteColor(),
+            originY: 20.0)
+        
+        //update lastFed in DB (save in timeIntervalSince1970 string format)
+        let userId = ref.authData.uid
+        print("auth: \(userId)")
+        let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
+        let now: String = "\(NSDate().timeIntervalSince1970)"
+        let lastFed = ["lastFed": now]
+        currentUserRef.updateChildValues(lastFed)
+
+
+        
+        //disable for a short time
+        self.hydrateButton.enabled = false
+        let resetButton = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("enableButton"), userInfo: nil, repeats: false)
+    }
+    
+    func startEarthquake(notification: NSNotification){
+        
         self.userProgress.hidden = false
         self.tapButton.hidden = false
         self.hydrateButton.userInteractionEnabled = false
         
         self.userProgress.progress = 0.5
-    
+        
         
         self.earthQuakeJob = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("earthquake:"), userInfo: nil, repeats: true)
         
         self.decreaseTimerJob = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("decreaseProgress"), userInfo: nil, repeats: true)
         
         self.changeDelta = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("changeDeltaFunction"), userInfo: nil, repeats: true)
+        
+        
+        //update lastEarthquake in DB (save in timeIntervalSince1970 string format)
+        let userId = ref.authData.uid
+        print("auth: \(userId)")
+        let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
+        let now: String = "\(NSDate().timeIntervalSince1970)"
+        let lastFed = ["lastEarthquake": now]
+        currentUserRef.updateChildValues(lastFed)
     }
     
     
@@ -104,6 +165,7 @@ class HomeViewController: UIViewController {
                 self.userProgress.hidden = true
                 self.tapButton.hidden = true
                 self.hydrateButton.userInteractionEnabled = true
+                
             }
         }
     }
@@ -166,6 +228,8 @@ class HomeViewController: UIViewController {
         self.presentViewController(viewController, animated: true, completion: nil)
     }
     
+    // *** HELPERS ***
+    
     func showAlert(title: String, message: String, cancelButton: String){
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
@@ -175,6 +239,21 @@ class HomeViewController: UIViewController {
         
         self.presentViewController(alertController, animated: true, completion: nil)
 
+    }
+    
+    func enableButton(){
+        print("enable")
+        self.hydrateButton.userInteractionEnabled = true
+        print("d")
+    }
+    
+    func startVideo() {
+        
+       // self.mediaView.stringByEvaluatingJavaScriptFromString("var theEvent = document.createEvent('MouseEvent');\n theEvent.initMouseEvent('click', true, true, window);\n awElement.dispatchEvent(theEvent);\n awElement.click();\n", 10, 10)
+        
+        
+        
+        //[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var theEvent = document.createEvent('MouseEvent');\n theEvent.initMouseEvent('click', true, true, window);\n awElement.dispatchEvent(theEvent);\n awElement.click();\n", mouseX, mouseY]];
     }
 
 }

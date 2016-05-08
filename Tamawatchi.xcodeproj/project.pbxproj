@@ -11,6 +11,9 @@
 		301A497A1C99C01700502BBA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301A49791C99C01700502BBA /* LoginViewController.swift */; };
 		301A497C1C9CA1F200502BBA /* ChooseAnimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */; };
 		301A497E1C9DDA0900502BBA /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301A497D1C9DDA0900502BBA /* Bolts.framework */; };
+		3025F3981CDD2876009A1E54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */; };
+		3025F3991CDD2876009A1E54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */; };
+		3025F39A1CDD2876009A1E54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */; };
 		3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE31C98C10500676803 /* AppDelegate.swift */; };
 		3075FBE61C98C10500676803 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE51C98C10500676803 /* HomeViewController.swift */; };
 		3075FBE91C98C10500676803 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3075FBE71C98C10500676803 /* Main.storyboard */; };
@@ -41,6 +44,9 @@
 		301A49791C99C01700502BBA /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseAnimalViewController.swift; sourceTree = "<group>"; };
 		301A497D1C9DDA0900502BBA /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "Pods/../build/Debug-iphoneos/Bolts.framework"; sourceTree = "<group>"; };
+		3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Tamawatchi/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3025F39B1CDD28EF009A1E54 /* TamawatchiTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TamawatchiTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		3025F39C1CDD28F0009A1E54 /* TamawatchiUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TamawatchiUITests-Bridging-Header.h"; sourceTree = "<group>"; };
 		3075FBE01C98C10500676803 /* Tamawatchi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tamawatchi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3075FBE31C98C10500676803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3075FBE51C98C10500676803 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +96,7 @@
 		3075FBD71C98C10500676803 = {
 			isa = PBXGroup;
 			children = (
+				3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */,
 				3075FBE21C98C10500676803 /* Tamawatchi */,
 				3075FBF71C98C10500676803 /* TamawatchiTests */,
 				3075FC021C98C10500676803 /* TamawatchiUITests */,
@@ -121,6 +128,8 @@
 				3075FC111C98C11800676803 /* Tamawatchi-Bridging-Header.h */,
 				301A49791C99C01700502BBA /* LoginViewController.swift */,
 				301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */,
+				3025F39B1CDD28EF009A1E54 /* TamawatchiTests-Bridging-Header.h */,
+				3025F39C1CDD28F0009A1E54 /* TamawatchiUITests-Bridging-Header.h */,
 			);
 			path = Tamawatchi;
 			sourceTree = "<group>";
@@ -275,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3075FBEE1C98C10500676803 /* LaunchScreen.storyboard in Resources */,
+				3025F3981CDD2876009A1E54 /* GoogleService-Info.plist in Resources */,
 				3075FBEB1C98C10500676803 /* Assets.xcassets in Resources */,
 				3075FBE91C98C10500676803 /* Main.storyboard in Resources */,
 			);
@@ -284,6 +294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3025F3991CDD2876009A1E54 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +302,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3025F39A1CDD2876009A1E54 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,10 +551,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TamawatchiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = antelopeForest.TamawatchiTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tamawatchi/TamawatchiTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tamawatchi.app/Tamawatchi";
 			};
 			name = Debug;
@@ -551,10 +566,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TamawatchiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = antelopeForest.TamawatchiTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tamawatchi/TamawatchiTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tamawatchi.app/Tamawatchi";
 			};
 			name = Release;
@@ -562,10 +579,13 @@
 		3075FC0F1C98C10500676803 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TamawatchiUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = antelopeForest.TamawatchiUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tamawatchi/TamawatchiUITests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_TARGET_NAME = Tamawatchi;
 				USES_XCTRUNNER = YES;
 			};
@@ -574,10 +594,12 @@
 		3075FC101C98C10500676803 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TamawatchiUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = antelopeForest.TamawatchiUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tamawatchi/TamawatchiUITests-Bridging-Header.h";
 				TEST_TARGET_NAME = Tamawatchi;
 				USES_XCTRUNNER = YES;
 			};
