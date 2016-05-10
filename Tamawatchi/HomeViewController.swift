@@ -29,57 +29,17 @@ class HomeViewController: UIViewController {
     var thanksMessages: [String] = []
     
     var delta: Float = 15.0
-    var earthQuakeOver: Bool = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+        
+        //listen for earthquake
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startEarthquake:", name:"startEarthquake", object: nil)
-        
-        self.tapButton.hidden = true
-        
-        
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        self.myAnimal = defaults.stringForKey("myAnimal")
-        self.tapButton.layer.cornerRadius = self.tapButton.frame.width*0.5
-        
-        print("in home vc")
-        
-        ref.childByAppendingPath("animals/\(myAnimal!)/url").observeSingleEventOfType(.Value, withBlock: { snapshot in
-            
-            if(snapshot.exists()){
-                let requestObj = NSURLRequest(URL: NSURL(string: snapshot.value as! String)!)
-                self.mediaView.allowsInlineMediaPlayback = true;
-                self.mediaView.mediaPlaybackRequiresUserAction = false;
-                self.mediaView.loadRequest(requestObj)
-                
-                print("url: \(snapshot.value as! String)!), my animal: \(self.myAnimal!)")
-
-            }
-            else{
-                print("animal: \(self.myAnimal!) doesnt exisit")
-            }
-            
-        })
-        
-        ref.childByAppendingPath("messages/thanks").observeSingleEventOfType(.Value, withBlock: { snapshot in
-            
-            if(snapshot.exists()){
-                
-                for childSnap in  snapshot.children.allObjects as! [FDataSnapshot]{
-                    let response = childSnap.value as! NSString
-                   // let url = childSnap.value["url"]
-                    print("About to add obj: \(response)")
-                    self.thanksMessages.append(response as String)
-                }
-            }
-            else{
-               self.thanksMessages.append("Thanks!")
-            }
-        })
     }
+    
     
     override func viewWillAppear(animated: Bool) {
         
@@ -93,7 +53,7 @@ class HomeViewController: UIViewController {
     
     
     //refactor name when final purpose is determined
-    @IBAction func bottomButtonPressed(sender: AnyObject) {
+    @IBAction func feedAnimal(sender: AnyObject) {
         
         AWBanner.showWithDuration(2.5,
             delay: 0.0,
@@ -109,12 +69,15 @@ class HomeViewController: UIViewController {
         let now: String = "\(NSDate().timeIntervalSince1970)"
         let lastFed = ["lastFed": now]
         currentUserRef.updateChildValues(lastFed)
-
-
         
         //disable for a short time
         self.hydrateButton.enabled = false
-        let resetButton = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: Selector("enableButton"), userInfo: nil, repeats: false)
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.hydrateButton.enabled = true
+            print("happened")
+        }
     }
     
     func startEarthquake(notification: NSNotification){
@@ -153,19 +116,10 @@ class HomeViewController: UIViewController {
         self.mediaView.shake(Int32((1/self.userProgress.progress)*1), withDelta: CGFloat(self.delta), speed: NSTimeInterval(0.5/((1/self.userProgress.progress)*1))) { () -> Void in
             
             //if finished, show alert
-            if(self.userProgress.progress > 0.99 && self.earthQuakeOver == false)
+            if(self.userProgress.progress > 0.99)
             {
-                self.earthQuakeOver = true
-                self.decreaseTimerJob.invalidate()
-                self.earthQuakeJob.invalidate()
-                self.changeDelta.invalidate()
-                
-                self.showAlert("Nice Job!", message: "Thanks to you, your \(self.myAnimal!) survived.", cancelButton: "OK")
-                
-                self.userProgress.hidden = true
-                self.tapButton.hidden = true
-                self.hydrateButton.userInteractionEnabled = true
-                
+               self.stopEarthquakeWithMessage("Thanks to you, your \(self.myAnimal!) survived.")
+
             }
         }
     }
@@ -186,24 +140,24 @@ class HomeViewController: UIViewController {
     {
         if(self.userProgress.progress > 0.01){
             self.userProgress.progress -= 0.0025;
-    }
-        else{
-            self.decreaseTimerJob.invalidate()
-            self.earthQuakeJob.invalidate()
-            self.changeDelta.invalidate()
-            
-            self.showAlert("Uh oh!", message: "Your \(self.myAnimal!) died. Do you even care?", cancelButton: "OK")
-            
-            self.userProgress.hidden = true
-            self.tapButton.hidden = true
-            self.hydrateButton.userInteractionEnabled = true
-            
-            self.petDied()
-            
-            UIView.animateWithDuration(1.5, animations: {
-                self.mediaView.alpha = 0
-            })
         }
+        else{
+            stopEarthquakeWithMessage("Your \(self.myAnimal!) died. Do you even care?")
+            self.petDied()
+        }
+    }
+    
+    func stopEarthquakeWithMessage(message: String){
+        
+        self.decreaseTimerJob.invalidate()
+        self.earthQuakeJob.invalidate()
+        self.changeDelta.invalidate()
+        
+        self.showAlert("Uh oh!", message: message, cancelButton: "OK")
+        
+        self.userProgress.hidden = true
+        self.tapButton.hidden = true
+        self.hydrateButton.userInteractionEnabled = true
     }
     
     func changeDeltaFunction(){
@@ -215,11 +169,14 @@ class HomeViewController: UIViewController {
         
         //update DB
         let userId = ref.authData.uid
-        print("auth: \(userId)")
         let postRef = self.ref.childByAppendingPath("users/\(userId)").childByAppendingPath("deadPets")
         let petInfo = ["type": self.myAnimal!]
         let post1Ref = postRef.childByAutoId()
         post1Ref.setValue(petInfo)
+        
+        UIView.animateWithDuration(1.5, animations: {
+            self.mediaView.alpha = 0
+        })
     }
     
     @IBAction func newPetPressed(sender: AnyObject) {
@@ -238,22 +195,66 @@ class HomeViewController: UIViewController {
         alertController.addAction(defaultAction)
         
         self.presentViewController(alertController, animated: true, completion: nil)
+    }
 
-    }
     
-    func enableButton(){
-        print("enable")
-        self.hydrateButton.userInteractionEnabled = true
-        print("d")
-    }
-    
-    func startVideo() {
+    //func autostartVideo() {
         
        // self.mediaView.stringByEvaluatingJavaScriptFromString("var theEvent = document.createEvent('MouseEvent');\n theEvent.initMouseEvent('click', true, true, window);\n awElement.dispatchEvent(theEvent);\n awElement.click();\n", 10, 10)
         
         
         
         //[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var theEvent = document.createEvent('MouseEvent');\n theEvent.initMouseEvent('click', true, true, window);\n awElement.dispatchEvent(theEvent);\n awElement.click();\n", mouseX, mouseY]];
+  //  }
+    
+    func setupUI() {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        self.myAnimal = defaults.stringForKey("myAnimal")
+        self.tapButton.layer.cornerRadius = self.tapButton.frame.width*0.5
+        
+        ref.childByAppendingPath("animals/\(myAnimal!)/url").observeEventType(.Value, withBlock: { snapshot in
+            
+            if(snapshot.exists()){
+                self.startVideo(snapshot)
+            }
+            else{
+                print("animal: \(self.myAnimal!) doesnt exisit")
+            }
+            
+        })
+        
+        loadThanksMessages()
     }
+    
+
+    
+    func loadThanksMessages(){
+        
+        ref.childByAppendingPath("messages/thanks").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            
+            if(snapshot.exists()){
+                
+                for childSnap in  snapshot.children.allObjects as! [FDataSnapshot]{
+                    let response = childSnap.value as! NSString
+                    self.thanksMessages.append(response as String)
+                }
+            }
+            else{
+                self.thanksMessages.append("Thanks!")
+            }
+        })
+    }
+    
+    func startVideo(snapshot: FDataSnapshot){
+        
+        let requestObj = NSURLRequest(URL: NSURL(string: snapshot.value as! String)!)
+        self.mediaView.allowsInlineMediaPlayback = true;
+        self.mediaView.mediaPlaybackRequiresUserAction = false;
+        self.mediaView.loadRequest(requestObj)
+        
+        print("url: \(snapshot.value as! String)!), my animal: \(self.myAnimal!)")
+    }
+
 
 }

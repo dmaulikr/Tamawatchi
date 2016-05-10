@@ -14,6 +14,8 @@ import FBSDKShareKit
 class LoginViewController: UIViewController {
     
     var currentUser: FAuthData = FAuthData()
+    let defaults = NSUserDefaults.standardUserDefaults()
+    let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,22 +25,14 @@ class LoginViewController: UIViewController {
         loginButton.addTarget(self, action: "loginPressed", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(loginButton)
         
-        print("login view did load")
-
     }
     
     override func viewDidAppear(animated: Bool) {
         
-        print("stored user: \(FBSDKAccessToken.currentAccessToken())")
-        
+        //idk if this is running
         if(FBSDKAccessToken.currentAccessToken() != nil){
             
-            //TEMP
-            print("seguing from login")
-            
             self.loginFirebase()
-//            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
-//            self.presentViewController(viewController, animated: false, completion: nil)
         }
         
     }
@@ -51,71 +45,23 @@ class LoginViewController: UIViewController {
     
     func loginPressed(){
         
-            let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
-            let facebookLogin = FBSDKLoginManager()
-        
-            facebookLogin.loginBehavior = FBSDKLoginBehavior.SystemAccount
-
-            facebookLogin.logInWithReadPermissions(["public_profile"],  fromViewController: self, handler: {
-                (facebookResult, facebookError) -> Void in
-                
-                if facebookError != nil {
-                    print("Facebook login failed. Error \(facebookError)")
-                } else if facebookResult.isCancelled {
-                    print("Facebook login was cancelled.")
-                } else {
-                    self.loginFirebase()
-                    //let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
-//                    ref.authWithOAuthProvider("facebook", token: accessToken,
-//                        withCompletionBlock: { error, authData in
-//                            if error != nil {
-//                                print("Login failed. \(error)")
-//                            } else {
-//                                print("Logged in! \(authData)")
-//                                
-//                                //check if user already exists
-//                                ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
-//                                    print("snapshot is: \(snapshot)")
-//                                    if(!snapshot.exists()){
-//                                        print("made new user")
-//                                        let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
-//                                        
-//                                        ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
-//                                        
-//                                        NSUserDefaults.standardUserDefaults().setObject(authData, forKey: "currentUser")
-//                                        self.performSegueWithIdentifier("chooseAnimal", sender: self)
-//                                    }
-//                                    else{
-//                                        print("snapshot has child: \(snapshot.hasChild("currentPet")) and the path is: \(snapshot.childSnapshotForPath("currentPet"))")
-//                                            
-//                                        if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
-//                                           
-//                                            print("in if")
-//                                            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
-//                                            self.presentViewController(viewController, animated: true, completion: nil)
-//                                        }
-//                                        else{
-//                                            print("segue to choose animal")
-//                                            
-//                                            
-//                                            let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
-//                                            self.presentViewController(viewController, animated: true, completion: nil)
-//                                          
-//                                            
-//                                        }
-//                                    }
-//                                })
-//                            }
-//                    })
-                }
-            })
-        
-           }
-    
+        let facebookLogin = FBSDKLoginManager()
+        facebookLogin.loginBehavior = FBSDKLoginBehavior.SystemAccount
+        facebookLogin.logInWithReadPermissions(["public_profile"],  fromViewController: self, handler: {
+            (facebookResult, facebookError) -> Void in
+            
+            if facebookError != nil {
+                print("Facebook login failed. Error \(facebookError)")
+            } else if facebookResult.isCancelled {
+                print("Facebook login was cancelled.")
+            } else {
+                self.loginFirebase()
+            }
+        })
+    }
     
     func loginFirebase() {
         
-        let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
         let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
         
         ref.authWithOAuthProvider("facebook", token: accessToken,
@@ -126,50 +72,55 @@ class LoginViewController: UIViewController {
                     print("Logged in! \(authData)")
                     
                     //check if user already exists
-                    ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
-                        print("snapshot is: \(snapshot)")
+                    self.ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
+                    
                         if(!snapshot.exists()){
-                            print("made new user")
-                            let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
                             
-                            ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
-                            
-                            NSUserDefaults.standardUserDefaults().setObject(authData, forKey: "currentUser")
-                            self.performSegueWithIdentifier("chooseAnimal", sender: self)
+                            self.newUser(authData)
                         }
                         else{
-                            print("snapshot has child: \(snapshot.hasChild("currentPet")) and the path is: \(snapshot.childSnapshotForPath("currentPet"))")
-                            
-                            let defaults = NSUserDefaults.standardUserDefaults()
-                            defaults.setObject(snapshot.childSnapshotForPath("currentPet").value as! String, forKey: "myAnimal")
+                          
+                            self.defaults.setObject(snapshot.childSnapshotForPath("currentPet").value as! String, forKey: "myAnimal")
                             
                             if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
-                                
-                                print("in if")
-                                let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("homeVC") as UIViewController
-                                print("set vc")
-                                self.presentViewController(viewController, animated: true, completion: nil)
+                                self.segueToViewControllerWithIdentifier("homeVC")
                             }
                             else{
-                                print("segue to choose animal")
-                                
-                                
-                                let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("chooseAnimalVC") as UIViewController
-                                self.presentViewController(viewController, animated: true, completion: nil)
-                                
-                                
+                                self.segueToViewControllerWithIdentifier("chooseAnimalVC")
                             }
                         }
                         
                         //set user push token
-                        let userId = ref.authData.uid
-                        let currentUserRef = ref.childByAppendingPath("users/\(userId)")
-                        let pushToken = ["pushToken": NSUserDefaults.standardUserDefaults().valueForKey("pushToken") as! String]
-                        currentUserRef.updateChildValues(pushToken)
+                        self.setPushToken()
                     })
                 }
         })
 
+    }
+    
+    func newUser(authData: FAuthData){
+        
+        let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
+        
+        ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
+        
+        self.defaults.setObject(authData, forKey: "currentUser")
+        self.performSegueWithIdentifier("chooseAnimal", sender: self)
+
+    }
+    
+    func segueToViewControllerWithIdentifier(indentifier: String){
+        
+        let viewController = self.storyboard!.instantiateViewControllerWithIdentifier(indentifier) as UIViewController
+        self.presentViewController(viewController, animated: true, completion: nil)
+    }
+    
+    func setPushToken(){
+        
+        let userId = self.ref.authData.uid
+        let currentUserRef = ref.childByAppendingPath("users/\(userId)")
+        let pushToken = ["pushToken": self.defaults.valueForKey("pushToken") as! String]
+        currentUserRef.updateChildValues(pushToken)
     }
     
    
@@ -185,6 +136,5 @@ class LoginViewController: UIViewController {
         else{
             return self
         }
-        
     }
 }

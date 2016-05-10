@@ -100,9 +100,9 @@
                                     <constraint firstAttribute="height" constant="60" id="gkZ-Z6-rCV"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Hydrate"/>
+                                <state key="normal" title="Feed"/>
                                 <connections>
-                                    <action selector="bottomButtonPressed:" destination="Sfw-Up-L0x" eventType="touchUpInside" id="bvz-c1-TSk"/>
+                                    <action selector="feedAnimal:" destination="Sfw-Up-L0x" eventType="touchUpInside" id="dWA-O9-tUx"/>
                                 </connections>
                             </button>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gIK-Hk-k29">
@@ -116,7 +116,7 @@
                                     </mask>
                                 </variation>
                             </progressView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEL-dj-FAs">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEL-dj-FAs">
                                 <rect key="frame" x="113" y="372" width="188" height="188"/>
                                 <color key="backgroundColor" red="0.66666666666666663" green="0.49201290935600328" blue="0.28321968448410995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>

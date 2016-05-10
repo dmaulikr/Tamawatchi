@@ -20,9 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         Pushbots.sharedInstanceWithAppId("56e86de537d9b058018b4569");
-        //Handle notification when the user click it, while app is closed.
-        //This method will show an alert to the user.
-        Pushbots.sharedInstance().receivedPush(launchOptions);
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -54,7 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         FBSDKAppEvents.activateApp()
-
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -67,19 +63,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication,
         didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-            //Handle notification when the user click it while app is running in background or foreground.
-          //  Pushbots.sharedInstance().receivedPush(userInfo);
             
-            print("payload : \(userInfo) -> \(userInfo["msgType"])")
-            
+            //start earthquake, if recieved earthquake notification
             if(userInfo["msgType"] as! String == "earthquake"){
-                print("RUN EARTHQUAKE HERE")
                 NSNotificationCenter.defaultCenter().postNotificationName("startEarthquake", object: nil)
             }
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         // This method will be called everytime you open the app
+        
         // Register the deviceToken on Pushbots
         Pushbots.sharedInstance().registerOnPushbots(deviceToken);
         
@@ -108,16 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if pushNotification == nil {
             return;
         }
-        
-        print("payload : \(pushNotification)")
-        
-     //   let alert = pushNotification!.objectForKey("alert") as! String;
-        
-        //Show alert
-      //  UIAlertView(title:"Notification!", message:alert, delegate:nil, cancelButtonTitle:"OK").show();
-        
     }
-    
 }
 
 //to convert deviceToken to string to save in Firebase
