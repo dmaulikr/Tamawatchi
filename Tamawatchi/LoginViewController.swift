@@ -15,7 +15,6 @@ class LoginViewController: UIViewController {
     
     var currentUser: FAuthData = FAuthData()
     let defaults = NSUserDefaults.standardUserDefaults()
-    let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
     var selectedAnimal: Animal?
     
     override func viewDidLoad() {
@@ -65,7 +64,7 @@ class LoginViewController: UIViewController {
         
         let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
         
-        ref.authWithOAuthProvider("facebook", token: accessToken,
+        Constants.ref.authWithOAuthProvider("facebook", token: accessToken,
             withCompletionBlock: { error, authData in
                 if error != nil {
                     print("Login failed. \(error)")
@@ -73,7 +72,7 @@ class LoginViewController: UIViewController {
                     print("Logged in! \(authData)")
                     
                     //check if user already exists
-                    self.ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
+                    Constants.ref.childByAppendingPath("users/\(authData.uid)").observeEventType(.Value, withBlock: { snapshot in
                     
                         if(!snapshot.exists()){
                             
@@ -115,7 +114,7 @@ class LoginViewController: UIViewController {
         
         let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
         
-        ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
+        Constants.ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
         
         self.defaults.setObject(authData, forKey: "currentUser")
         self.performSegueWithIdentifier("chooseAnimal", sender: self)
@@ -132,8 +131,8 @@ class LoginViewController: UIViewController {
     
     func setPushToken(){
         
-        let userId = self.ref.authData.uid
-        let currentUserRef = ref.childByAppendingPath("users/\(userId)")
+        let userId = Constants.ref.authData.uid
+        let currentUserRef = Constants.ref.childByAppendingPath("users/\(userId)")
         let pushToken = ["pushToken": self.defaults.valueForKey("pushToken") as! String]
         currentUserRef.updateChildValues(pushToken)
     }

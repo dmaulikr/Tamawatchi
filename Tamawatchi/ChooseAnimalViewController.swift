@@ -14,7 +14,6 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var tableView: UITableView!
     var animals: NSArray = NSArray()
-    let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
     var selectedAnimal: Animal?
     
     override func viewDidLoad() {
@@ -47,11 +46,11 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
       
-        if self.ref.authData != nil {
+        if Constants.ref.authData != nil {
             
             //update DB
-            let userId = ref.authData.uid
-            let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
+            let userId = Constants.ref.authData.uid
+            let currentUserRef = Constants.ref.childByAppendingPath("users/\(userId)")
             let selectedPet = ["currentPet": self.animals[indexPath.row].valueForKey("name") as! String]
             currentUserRef.updateChildValues(selectedPet)
             
@@ -71,14 +70,14 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     
     func fetchAnimals(){
         
-        ref.childByAppendingPath("animals").observeSingleEventOfType(.Value, withBlock: { snapshot in
+        Constants.ref.childByAppendingPath("animals").observeSingleEventOfType(.Value, withBlock: { snapshot in
             self.animals = self.parseAnimalSnapshot(snapshot)
             self.tableView.reloadData()
         })
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        print("segue with: \(self.selectedAnimal)")
+        
         let svc = segue.destinationViewController as! HomeViewController;
         svc.myAnimal = self.selectedAnimal!
     }

@@ -22,7 +22,6 @@ class HomeViewController: UIViewController {
     
     var myAnimal: Animal!
     var test: Int!
-    let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
 
     var decreaseTimerJob: NSTimer = NSTimer()
     var earthQuakeJob: NSTimer = NSTimer()
@@ -89,9 +88,9 @@ class HomeViewController: UIViewController {
         
         
         //update lastEarthquake in DB (save in timeIntervalSince1970 string format)
-        let userId = ref.authData.uid
+        let userId = Constants.ref.authData.uid
         print("auth: \(userId)")
-        let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
+        let currentUserRef = Constants.ref.childByAppendingPath("users/\(userId)")
         let now: String = "\(NSDate().timeIntervalSince1970)"
         let lastFed = ["lastEarthquake": now]
         currentUserRef.updateChildValues(lastFed)
@@ -195,7 +194,7 @@ class HomeViewController: UIViewController {
     
     func loadThanksMessages(){
         
-        ref.childByAppendingPath("messages/thanks").observeSingleEventOfType(.Value, withBlock: { snapshot in
+        Constants.ref.childByAppendingPath("messages/thanks").observeSingleEventOfType(.Value, withBlock: { snapshot in
             
             if(snapshot.exists()){
                 
