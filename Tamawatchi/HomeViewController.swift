@@ -11,7 +11,7 @@ import Firebase
 import QuartzCore
 import UIView_Shake
 import Foundation
-import AWBanner
+
 
 class HomeViewController: UIViewController {
     
@@ -20,7 +20,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tapButton: UIButton!
     @IBOutlet weak var hydrateButton: UIButton!
     
-    var myAnimal: String?
+    var myAnimal: Animal!
+    var test: Int!
     let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
 
     var decreaseTimerJob: NSTimer = NSTimer()
@@ -40,6 +41,12 @@ class HomeViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startEarthquake:", name:"startEarthquake", object: nil)
     }
     
+    func setupUI() {
+
+        self.startVideo(self.myAnimal!.url)
+        loadThanksMessages()
+    }
+    
     
     override func viewWillAppear(animated: Bool) {
         
@@ -51,24 +58,10 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    //refactor name when final purpose is determined
+
     @IBAction func feedAnimal(sender: AnyObject) {
-        
-        AWBanner.showWithDuration(2.5,
-            delay: 0.0,
-            message: NSLocalizedString(self.thanksMessages[Int(arc4random_uniform(UInt32(self.thanksMessages.count-1)))] , comment: ""),
-            backgroundColor: UIColor(red:0.25, green:0.73, blue:0.56, alpha:1.0),
-            textColor: UIColor.whiteColor(),
-            originY: 20.0)
-        
-        //update lastFed in DB (save in timeIntervalSince1970 string format)
-        let userId = ref.authData.uid
-        print("auth: \(userId)")
-        let currentUserRef = self.ref.childByAppendingPath("users/\(userId)")
-        let now: String = "\(NSDate().timeIntervalSince1970)"
-        let lastFed = ["lastFed": now]
-        currentUserRef.updateChildValues(lastFed)
+
+        self.myAnimal?.feed()
         
         //disable for a short time
         self.hydrateButton.enabled = false
@@ -76,7 +69,6 @@ class HomeViewController: UIViewController {
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             self.hydrateButton.enabled = true
-            print("happened")
         }
     }
     
@@ -119,7 +111,6 @@ class HomeViewController: UIViewController {
             if(self.userProgress.progress > 0.99)
             {
                self.stopEarthquakeWithMessage("Thanks to you, your \(self.myAnimal!) survived.")
-
             }
         }
     }
@@ -167,13 +158,8 @@ class HomeViewController: UIViewController {
     
     func petDied (){
         
-        //update DB
-        let userId = ref.authData.uid
-        let postRef = self.ref.childByAppendingPath("users/\(userId)").childByAppendingPath("deadPets")
-        let petInfo = ["type": self.myAnimal!]
-        let post1Ref = postRef.childByAutoId()
-        post1Ref.setValue(petInfo)
-        
+        self.myAnimal!.died()
+               
         UIView.animateWithDuration(1.5, animations: {
             self.mediaView.alpha = 0
         })
@@ -207,28 +193,6 @@ class HomeViewController: UIViewController {
         //[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var theEvent = document.createEvent('MouseEvent');\n theEvent.initMouseEvent('click', true, true, window);\n awElement.dispatchEvent(theEvent);\n awElement.click();\n", mouseX, mouseY]];
   //  }
     
-    func setupUI() {
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        self.myAnimal = defaults.stringForKey("myAnimal")
-        self.tapButton.layer.cornerRadius = self.tapButton.frame.width*0.5
-        
-        ref.childByAppendingPath("animals/\(myAnimal!)/url").observeEventType(.Value, withBlock: { snapshot in
-            
-            if(snapshot.exists()){
-                self.startVideo(snapshot)
-            }
-            else{
-                print("animal: \(self.myAnimal!) doesnt exisit")
-            }
-            
-        })
-        
-        loadThanksMessages()
-    }
-    
-
-    
     func loadThanksMessages(){
         
         ref.childByAppendingPath("messages/thanks").observeSingleEventOfType(.Value, withBlock: { snapshot in
@@ -246,14 +210,14 @@ class HomeViewController: UIViewController {
         })
     }
     
-    func startVideo(snapshot: FDataSnapshot){
+    func startVideo(url: NSURL){
         
-        let requestObj = NSURLRequest(URL: NSURL(string: snapshot.value as! String)!)
+        let requestObj = NSURLRequest(URL: url)
         self.mediaView.allowsInlineMediaPlayback = true;
         self.mediaView.mediaPlaybackRequiresUserAction = false;
         self.mediaView.loadRequest(requestObj)
         
-        print("url: \(snapshot.value as! String)!), my animal: \(self.myAnimal!)")
+        print("url: \(url)!), my animal: \(self.myAnimal!)")
     }
 
 

@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     var currentUser: FAuthData = FAuthData()
     let defaults = NSUserDefaults.standardUserDefaults()
     let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
+    var selectedAnimal: Animal?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,19 +46,19 @@ class LoginViewController: UIViewController {
     
     func loginPressed(){
         
-        let facebookLogin = FBSDKLoginManager()
-        facebookLogin.loginBehavior = FBSDKLoginBehavior.SystemAccount
-        facebookLogin.logInWithReadPermissions(["public_profile"],  fromViewController: self, handler: {
-            (facebookResult, facebookError) -> Void in
-            
-            if facebookError != nil {
-                print("Facebook login failed. Error \(facebookError)")
-            } else if facebookResult.isCancelled {
-                print("Facebook login was cancelled.")
-            } else {
-                self.loginFirebase()
-            }
-        })
+//        let facebookLogin = FBSDKLoginManager()
+//        facebookLogin.loginBehavior = FBSDKLoginBehavior.SystemAccount
+//        facebookLogin.logInWithReadPermissions(["public_profile"],  fromViewController: self, handler: {
+//            (facebookResult, facebookError) -> Void in
+//            
+//            if facebookError != nil {
+//                print("Facebook login failed. Error \(facebookError)")
+//            } else if facebookResult.isCancelled {
+//                print("Facebook login was cancelled.")
+//            } else {
+//                self.loginFirebase()
+//            }
+//        })
     }
     
     func loginFirebase() {
@@ -79,11 +80,13 @@ class LoginViewController: UIViewController {
                             self.newUser(authData)
                         }
                         else{
-                          
-                            self.defaults.setObject(snapshot.childSnapshotForPath("currentPet").value as! String, forKey: "myAnimal")
                             
                             if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
-                                self.segueToViewControllerWithIdentifier("homeVC")
+                          
+                                self.selectedAnimal = Animal(name: snapshot.childSnapshotForPath("currentPet").value as! String, url: NSURL(string: snapshot.childSnapshotForPath("currentPetUrl").value as! String)!)
+                                
+                              //  self.segueToViewControllerWithIdentifier("homeVC")
+                                self.performSegueWithIdentifier("loginToHomeSegue", sender: self)
                             }
                             else{
                                 self.segueToViewControllerWithIdentifier("chooseAnimalVC")
@@ -96,6 +99,16 @@ class LoginViewController: UIViewController {
                 }
         })
 
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        print("segue with: \(self.selectedAnimal!)")
+        if(segue.identifier == "loginToHomeSegue"){
+            let svc = segue.destinationViewController as! HomeViewController;
+            svc.myAnimal = self.selectedAnimal!
+            svc.test = 12
+        }
+        
     }
     
     func newUser(authData: FAuthData){
@@ -114,6 +127,8 @@ class LoginViewController: UIViewController {
         let viewController = self.storyboard!.instantiateViewControllerWithIdentifier(indentifier) as UIViewController
         self.presentViewController(viewController, animated: true, completion: nil)
     }
+    
+    
     
     func setPushToken(){
         

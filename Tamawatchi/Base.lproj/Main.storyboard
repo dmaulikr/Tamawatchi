@@ -20,10 +20,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <segue destination="Sfw-Up-L0x" kind="show" identifier="loginToHomeSegue" id="TVR-uC-a3A"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xvN-3A-RnH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3636" y="769"/>
+            <point key="canvasLocation" x="-3601" y="797"/>
         </scene>
         <!--Choose Animal View Controller-->
         <scene sceneID="h7h-7n-stT">
@@ -180,8 +183,8 @@
                     <connections>
                         <outlet property="hydrateButton" destination="b11-vd-mFk" id="YgR-5m-9TM"/>
                         <outlet property="mediaView" destination="8oR-xU-tmm" id="NVl-S1-LPT"/>
-                        <outlet property="tapButton" destination="cEL-dj-FAs" id="t8Y-kF-nzf"/>
-                        <outlet property="userProgress" destination="gIK-Hk-k29" id="6Zp-zI-vwy"/>
+                        <outlet property="tapButton" destination="cEL-dj-FAs" id="tQD-Yt-6Sf"/>
+                        <outlet property="userProgress" destination="gIK-Hk-k29" id="xX9-0B-S3g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gSJ-pe-5UB" sceneMemberID="firstResponder"/>
@@ -189,4 +192,7 @@
             <point key="canvasLocation" x="-2980" y="797"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="TVR-uC-a3A"/>
+    </inferredMetricsTieBreakers>
 </document>

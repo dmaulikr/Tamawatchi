@@ -15,7 +15,7 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var tableView: UITableView!
     var animals: NSArray = NSArray()
     let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
-    var selectedAnimal: String?
+    var selectedAnimal: Animal?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,9 +55,11 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
             let selectedPet = ["currentPet": self.animals[indexPath.row].valueForKey("name") as! String]
             currentUserRef.updateChildValues(selectedPet)
             
+            let selectedPetUrl = ["currentPetUrl": self.animals[indexPath.row].valueForKey("url") as! String]
+            currentUserRef.updateChildValues(selectedPetUrl)
+            
             //update locally
-            selectedAnimal = (self.animals[indexPath.row].valueForKey("name") as? String)!
-            NSUserDefaults.standardUserDefaults().setValue(selectedAnimal, forKey: "myAnimal")
+            selectedAnimal = Animal(name: (self.animals[indexPath.row].valueForKey("name") as? String)!, url:NSURL(string: (self.animals[indexPath.row].valueForKey("url") as? String)!)!)
             
             self.performSegueWithIdentifier("animalHomeSegue", sender: self)
             
@@ -75,6 +77,12 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
         })
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        print("segue with: \(self.selectedAnimal)")
+        let svc = segue.destinationViewController as! HomeViewController;
+        svc.myAnimal = self.selectedAnimal!
+    }
+    
     func parseAnimalSnapshot(snapshot: FDataSnapshot) -> NSArray{
         
         let animalsObjectArray: NSMutableArray = NSMutableArray()
@@ -87,16 +95,5 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
         }
 
         return animalsObjectArray
-    }
-}
-
-class Animal: NSObject {
-    
-    var name = NSString()
-    var url = NSURL()
-    
-    init(name: NSString, url: NSURL) {
-        self.name = name
-        self.url = url
     }
 }

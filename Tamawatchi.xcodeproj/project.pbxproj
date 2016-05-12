@@ -14,6 +14,12 @@
 		3025F3981CDD2876009A1E54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */; };
 		3025F3991CDD2876009A1E54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */; };
 		3025F39A1CDD2876009A1E54 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */; };
+		3025F3A31CE285D4009A1E54 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025F3A21CE285D4009A1E54 /* Animal.swift */; };
+		3025F3A41CE285D4009A1E54 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025F3A21CE285D4009A1E54 /* Animal.swift */; };
+		3025F3A51CE285D4009A1E54 /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025F3A21CE285D4009A1E54 /* Animal.swift */; };
+		3025F3AE1CE29B86009A1E54 /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025F3AD1CE29B86009A1E54 /* Earthquake.swift */; };
+		3025F3AF1CE29B86009A1E54 /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025F3AD1CE29B86009A1E54 /* Earthquake.swift */; };
+		3025F3B01CE29B86009A1E54 /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025F3AD1CE29B86009A1E54 /* Earthquake.swift */; };
 		3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE31C98C10500676803 /* AppDelegate.swift */; };
 		3075FBE61C98C10500676803 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3075FBE51C98C10500676803 /* HomeViewController.swift */; };
 		3075FBE91C98C10500676803 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3075FBE71C98C10500676803 /* Main.storyboard */; };
@@ -45,8 +51,8 @@
 		301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseAnimalViewController.swift; sourceTree = "<group>"; };
 		301A497D1C9DDA0900502BBA /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "Pods/../build/Debug-iphoneos/Bolts.framework"; sourceTree = "<group>"; };
 		3025F3971CDD2876009A1E54 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Tamawatchi/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		3025F39B1CDD28EF009A1E54 /* TamawatchiTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TamawatchiTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		3025F39C1CDD28F0009A1E54 /* TamawatchiUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TamawatchiUITests-Bridging-Header.h"; sourceTree = "<group>"; };
+		3025F3A21CE285D4009A1E54 /* Animal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animal.swift; sourceTree = "<group>"; };
+		3025F3AD1CE29B86009A1E54 /* Earthquake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
 		3075FBE01C98C10500676803 /* Tamawatchi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tamawatchi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3075FBE31C98C10500676803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3075FBE51C98C10500676803 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +99,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3025F3A11CE285B4009A1E54 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3025F3A21CE285D4009A1E54 /* Animal.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		3025F3A81CE29012009A1E54 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3025F3AD1CE29B86009A1E54 /* Earthquake.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		3075FBD71C98C10500676803 = {
 			isa = PBXGroup;
 			children = (
@@ -119,17 +141,17 @@
 		3075FBE21C98C10500676803 /* Tamawatchi */ = {
 			isa = PBXGroup;
 			children = (
+				3025F3A81CE29012009A1E54 /* Helpers */,
+				3025F3A11CE285B4009A1E54 /* Models */,
 				3075FBE31C98C10500676803 /* AppDelegate.swift */,
+				301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */,
 				3075FBE51C98C10500676803 /* HomeViewController.swift */,
+				301A49791C99C01700502BBA /* LoginViewController.swift */,
 				3075FBE71C98C10500676803 /* Main.storyboard */,
 				3075FBEA1C98C10500676803 /* Assets.xcassets */,
 				3075FBEC1C98C10500676803 /* LaunchScreen.storyboard */,
 				3075FBEF1C98C10500676803 /* Info.plist */,
 				3075FC111C98C11800676803 /* Tamawatchi-Bridging-Header.h */,
-				301A49791C99C01700502BBA /* LoginViewController.swift */,
-				301A497B1C9CA1F200502BBA /* ChooseAnimalViewController.swift */,
-				3025F39B1CDD28EF009A1E54 /* TamawatchiTests-Bridging-Header.h */,
-				3025F39C1CDD28F0009A1E54 /* TamawatchiUITests-Bridging-Header.h */,
 			);
 			path = Tamawatchi;
 			sourceTree = "<group>";
@@ -361,9 +383,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3025F3A31CE285D4009A1E54 /* Animal.swift in Sources */,
 				301A497A1C99C01700502BBA /* LoginViewController.swift in Sources */,
 				301A497C1C9CA1F200502BBA /* ChooseAnimalViewController.swift in Sources */,
 				3075FBE61C98C10500676803 /* HomeViewController.swift in Sources */,
+				3025F3AE1CE29B86009A1E54 /* Earthquake.swift in Sources */,
 				3075FBE41C98C10500676803 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,6 +397,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3075FBF91C98C10500676803 /* TamawatchiTests.swift in Sources */,
+				3025F3AF1CE29B86009A1E54 /* Earthquake.swift in Sources */,
+				3025F3A41CE285D4009A1E54 /* Animal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +407,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3075FC041C98C10500676803 /* TamawatchiUITests.swift in Sources */,
+				3025F3B01CE29B86009A1E54 /* Earthquake.swift in Sources */,
+				3025F3A51CE285D4009A1E54 /* Animal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

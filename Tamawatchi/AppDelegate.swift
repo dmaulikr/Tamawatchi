@@ -76,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Register the deviceToken on Pushbots
         Pushbots.sharedInstance().registerOnPushbots(deviceToken);
         
-       // NSUserDefaults.setValue(value: "test", forKey: "pushToken")
         NSUserDefaults.standardUserDefaults().setObject(deviceToken.hexString, forKey: "pushToken")
 
     }
