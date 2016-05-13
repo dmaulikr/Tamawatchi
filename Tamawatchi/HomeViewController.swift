@@ -12,7 +12,6 @@ import QuartzCore
 import UIView_Shake
 import Foundation
 
-
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var mediaView: UIWebView!
@@ -20,8 +19,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tapButton: UIButton!
     @IBOutlet weak var hydrateButton: UIButton!
     
-    var myAnimal: Animal!
-    var test: Int!
+    var myAnimal: Animal? //not sure if this should be "if let" here, or later in code
 
     var decreaseTimerJob: NSTimer = NSTimer()
     var earthQuakeJob: NSTimer = NSTimer()
@@ -41,8 +39,12 @@ class HomeViewController: UIViewController {
     }
     
     func setupUI() {
-
-        self.startVideo(self.myAnimal!.url)
+        
+        if let myAnimal = self.myAnimal{
+            
+            self.startVideo(myAnimal.url)
+        }
+        
         loadThanksMessages()
     }
     
@@ -89,7 +91,6 @@ class HomeViewController: UIViewController {
         
         //update lastEarthquake in DB (save in timeIntervalSince1970 string format)
         let userId = Constants.ref.authData.uid
-        print("auth: \(userId)")
         let currentUserRef = Constants.ref.childByAppendingPath("users/\(userId)")
         let now: String = "\(NSDate().timeIntervalSince1970)"
         let lastFed = ["lastEarthquake": now]
@@ -109,7 +110,9 @@ class HomeViewController: UIViewController {
             //if finished, show alert
             if(self.userProgress.progress > 0.99)
             {
-               self.stopEarthquakeWithMessage("Thanks to you, your \(self.myAnimal!) survived.")
+                if let myAnimal = self.myAnimal{
+                    self.stopEarthquakeWithMessage("Thanks to you, your \(myAnimal) survived.")
+                }
             }
         }
     }
@@ -132,7 +135,11 @@ class HomeViewController: UIViewController {
             self.userProgress.progress -= 0.0025;
         }
         else{
-            stopEarthquakeWithMessage("Your \(self.myAnimal!) died. Do you even care?")
+            if let myAnimal = self.myAnimal{
+                stopEarthquakeWithMessage("Your \(myAnimal) died. Do you even care?")
+
+            }
+            
             self.petDied()
         }
     }
@@ -157,8 +164,10 @@ class HomeViewController: UIViewController {
     
     func petDied (){
         
-        self.myAnimal!.died()
-               
+        if let myAnimal = self.myAnimal{
+            myAnimal.died()
+        }
+        
         UIView.animateWithDuration(1.5, animations: {
             self.mediaView.alpha = 0
         })
@@ -198,9 +207,12 @@ class HomeViewController: UIViewController {
             
             if(snapshot.exists()){
                 
-                for childSnap in  snapshot.children.allObjects as! [FDataSnapshot]{
-                    let response = childSnap.value as! NSString
-                    self.thanksMessages.append(response as String)
+                for childSnap in snapshot.children.allObjects{
+                    if let childSnapUnWrap = childSnap as? FDataSnapshot{
+                        
+                        let response = childSnapUnWrap.value as! NSString
+                        self.thanksMessages.append(response as String)
+                    }
                 }
             }
             else{
@@ -216,7 +228,6 @@ class HomeViewController: UIViewController {
         self.mediaView.mediaPlaybackRequiresUserAction = false;
         self.mediaView.loadRequest(requestObj)
         
-        print("url: \(url)!), my animal: \(self.myAnimal!)")
     }
 
 

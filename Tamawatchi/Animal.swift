@@ -4,8 +4,8 @@ import Firebase
 
 class Animal: NSObject {
     
-    var name = NSString()
-    var url = NSURL()
+    var name: NSString
+    var url:NSURL
     let ref = Firebase(url: "https://brilliant-fire-4695.firebaseio.com")
     
     init(name: NSString, url: NSURL) {

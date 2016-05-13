@@ -65,8 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
             
             //start earthquake, if recieved earthquake notification
-            if(userInfo["msgType"] as! String == "earthquake"){
-                NSNotificationCenter.defaultCenter().postNotificationName("startEarthquake", object: nil)
+            if let msgType = userInfo["msgType"] as? String {
+                if(msgType == "earthquake"){
+                    NSNotificationCenter.defaultCenter().postNotificationName("startEarthquake", object: nil)
+                }
             }
     }
     

@@ -13,6 +13,7 @@ import Firebase
 class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
+    
     var animals: NSArray = NSArray()
     var selectedAnimal: Animal?
     
@@ -37,9 +38,11 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
-        cell.textLabel?.text = "\(self.animals[indexPath.row].valueForKey("name")!)"
+        if let animalName = self.animals[indexPath.row].valueForKey("name") {
+            cell.textLabel?.text = animalName as? String
+        }
         
         return cell
     }
@@ -48,17 +51,24 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
       
         if Constants.ref.authData != nil {
             
+            
             //update DB
             let userId = Constants.ref.authData.uid
             let currentUserRef = Constants.ref.childByAppendingPath("users/\(userId)")
-            let selectedPet = ["currentPet": self.animals[indexPath.row].valueForKey("name") as! String]
-            currentUserRef.updateChildValues(selectedPet)
             
-            let selectedPetUrl = ["currentPetUrl": self.animals[indexPath.row].valueForKey("url") as! String]
-            currentUserRef.updateChildValues(selectedPetUrl)
+            if let name = self.animals[indexPath.row].valueForKey("name") as? String, url = self.animals[indexPath.row].valueForKey("url") as? String {
+        
+                let selectedPet = ["currentPet": name]
+                currentUserRef.updateChildValues(selectedPet)
+           
+                
+                let selectedPetUrl = ["currentPetUrl": url]
+                currentUserRef.updateChildValues(selectedPetUrl)
             
-            //update locally
-            selectedAnimal = Animal(name: (self.animals[indexPath.row].valueForKey("name") as? String)!, url:NSURL(string: (self.animals[indexPath.row].valueForKey("url") as? String)!)!)
+            
+                //update locally
+                selectedAnimal = Animal(name: name, url: NSURL(string: url)!)
+            }
             
             self.performSegueWithIdentifier("animalHomeSegue", sender: self)
             
@@ -78,8 +88,9 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         
-        let svc = segue.destinationViewController as! HomeViewController;
-        svc.myAnimal = self.selectedAnimal!
+        if let svc = segue.destinationViewController as? HomeViewController{
+            svc.myAnimal = self.selectedAnimal
+        }
     }
     
     func parseAnimalSnapshot(snapshot: FDataSnapshot) -> NSArray{
@@ -88,11 +99,10 @@ class ChooseAnimalViewController: UIViewController, UITableViewDelegate, UITable
 
         for childSnap in  snapshot.children.allObjects as! [FDataSnapshot]{
             let animalName = childSnap.key as NSString
-            let url = childSnap.value["url"]
-            animalsObjectArray.addObject(Animal(name:animalName, url: NSURL(string:url as! NSString as String)!))
-            
+            if let url = childSnap.value["url"] as? String{
+                animalsObjectArray.addObject(Animal(name:animalName, url: NSURL(string:url)!))
+            }
         }
-
         return animalsObjectArray
     }
 }

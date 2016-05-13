@@ -24,17 +24,14 @@ class LoginViewController: UIViewController {
         loginButton.center = self.view.center
         loginButton.addTarget(self, action: "loginPressed", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(loginButton)
-        
     }
     
     override func viewDidAppear(animated: Bool) {
         
-        //idk if this is running
         if(FBSDKAccessToken.currentAccessToken() != nil){
             
             self.loginFirebase()
         }
-        
     }
     
     
@@ -43,22 +40,6 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func loginPressed(){
-        
-//        let facebookLogin = FBSDKLoginManager()
-//        facebookLogin.loginBehavior = FBSDKLoginBehavior.SystemAccount
-//        facebookLogin.logInWithReadPermissions(["public_profile"],  fromViewController: self, handler: {
-//            (facebookResult, facebookError) -> Void in
-//            
-//            if facebookError != nil {
-//                print("Facebook login failed. Error \(facebookError)")
-//            } else if facebookResult.isCancelled {
-//                print("Facebook login was cancelled.")
-//            } else {
-//                self.loginFirebase()
-//            }
-//        })
-    }
     
     func loginFirebase() {
         
@@ -82,9 +63,10 @@ class LoginViewController: UIViewController {
                             
                             if(snapshot.hasChild("currentPet") && snapshot.childSnapshotForPath("currentPet") != "none"){
                           
-                                self.selectedAnimal = Animal(name: snapshot.childSnapshotForPath("currentPet").value as! String, url: NSURL(string: snapshot.childSnapshotForPath("currentPetUrl").value as! String)!)
+                                if let name = snapshot.childSnapshotForPath("currentPet").value as? String, url = snapshot.childSnapshotForPath("currentPetUrl").value as? String {
+                                    self.selectedAnimal = Animal(name: name, url: NSURL(string: url)!)
+                                }
                                 
-                              //  self.segueToViewControllerWithIdentifier("homeVC")
                                 self.performSegueWithIdentifier("loginToHomeSegue", sender: self)
                             }
                             else{
@@ -101,40 +83,46 @@ class LoginViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        print("segue with: \(self.selectedAnimal!)")
+
         if(segue.identifier == "loginToHomeSegue"){
-            let svc = segue.destinationViewController as! HomeViewController;
-            svc.myAnimal = self.selectedAnimal!
-            svc.test = 12
+            if let svc = segue.destinationViewController as? HomeViewController{
+                svc.myAnimal = self.selectedAnimal
+            }
         }
         
     }
     
     func newUser(authData: FAuthData){
         
-        let newUser: NSDictionary = ["provider": authData.provider, "displayName": authData.valueForKeyPath("providerData.displayName")! ]
+        if let displayName = authData.valueForKeyPath("providerData.displayName"){
+            
+            let newUser: NSDictionary = ["provider": authData.provider, "displayName": displayName]
+            Constants.ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
+        }
         
-        Constants.ref.childByAppendingPath("users").childByAppendingPath(authData.uid).setValue(newUser)
-        
-        self.defaults.setObject(authData, forKey: "currentUser")
+        self.defaults.setObject(authData, forKey: "currentUser") //maybe not needed anymore?
         self.performSegueWithIdentifier("chooseAnimal", sender: self)
 
     }
     
     func segueToViewControllerWithIdentifier(indentifier: String){
         
-        let viewController = self.storyboard!.instantiateViewControllerWithIdentifier(indentifier) as UIViewController
-        self.presentViewController(viewController, animated: true, completion: nil)
+        if let storyboard = self.storyboard {
+            let viewController = storyboard.instantiateViewControllerWithIdentifier(indentifier) as UIViewController
+            self.presentViewController(viewController, animated: true, completion: nil)
+        }
     }
-    
     
     
     func setPushToken(){
         
         let userId = Constants.ref.authData.uid
         let currentUserRef = Constants.ref.childByAppendingPath("users/\(userId)")
-        let pushToken = ["pushToken": self.defaults.valueForKey("pushToken") as! String]
-        currentUserRef.updateChildValues(pushToken)
+        if let pushToken = self.defaults.valueForKey("pushToken") as? String{
+            
+            let pushToken = ["pushToken": pushToken]
+            currentUserRef.updateChildValues(pushToken)
+        }
     }
     
    
